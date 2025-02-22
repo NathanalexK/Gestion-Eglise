@@ -18,6 +18,7 @@ public class MvtCaisseLigneDTO {
     private Double sortie;
     private Double soldes;
 
+
     public MvtCaisseLigneDTO() {
     }
 

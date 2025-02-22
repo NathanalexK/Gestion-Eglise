@@ -28,7 +28,7 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
              entree,
              sortie
          FROM mvt_caisse
-         WHERE COALESCE(:dmin, date) >= date AND COALESCE(:dmax, date) <= date
+         WHERE COALESCE(:dmin, date) <= date AND COALESCE(:dmax, date) >= date
         )
         SELECT
             t.id,

@@ -20,7 +20,7 @@ transactions_filtrees AS (
      entree,
      sortie
  FROM mvt_caisse
- WHERE date >= '2025-02-10'
+ WHERE date >= '2025-02-10' AND date <= '2025-02-28'
 )
 SELECT
     t.id,

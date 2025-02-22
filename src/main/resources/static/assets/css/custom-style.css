@@ -32,6 +32,7 @@ thead tr th {
     /*border: solid 1px #91b1c7;*/
     background-color: var(--c1);
     padding: 0.5rem 1rem !important;
+    cursor: pointer;
     /*font-weight: bold;*/
 }
 
@@ -269,7 +270,7 @@ input:disabled {
 
 #layout-menu {
     /*border-bottom: solid 1px #0a6aa1 !important;*/
-    background-color: white !important;
+    /*background-color: white !important;*/
 }
 
 .menu-horizontal-wrapper {

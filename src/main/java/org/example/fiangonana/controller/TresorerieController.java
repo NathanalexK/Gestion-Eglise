@@ -8,6 +8,7 @@ import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.repository.CodeRepository;
 import org.example.fiangonana.service.CodeService;
 import org.example.fiangonana.service.MvtCaisseService;
+import org.example.fiangonana.util.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -85,12 +86,21 @@ public class TresorerieController extends BaseController {
             @RequestParam(name = "dmin", required = false) LocalDate dmin,
             @RequestParam(name = "dmax", required = false) LocalDate dmax
     ) {
+        if(dmin == null && dmax == null) {
+            LocalDate[] dates = DateUtils.getIntervalleMois(LocalDate.now());
+            dmin = dates[0];
+            dmax = dates[1];
+        }
         ModelAndView modelAndView = this.getPage("tresorerie/liste-2dates.jsp");
         modelAndView.addObject("mvtCaisse[]", mvtCaisseService.getMvtCaissesEntre2Dates(dmin, dmax));
+
         modelAndView.addObject("dmin", dmin);
         modelAndView.addObject("dmax", dmax);
         return modelAndView;
     }
+
+//    @GetMapping("/pdf/date")
+//    public
 
 
 }

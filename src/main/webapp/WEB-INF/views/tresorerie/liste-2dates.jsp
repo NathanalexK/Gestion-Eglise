@@ -1,15 +1,19 @@
 <%@ page import="java.util.List" %>
 <%@ page import="org.example.fiangonana.dto.tresorerie.MvtCaisseLigneDTO" %>
 <%@ page import="org.example.fiangonana.model.MvtCaisse" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="org.example.fiangonana.util.DateUtils" %>
 <%@page pageEncoding="UTF-8" %>
 <%
     List<MvtCaisseLigneDTO> mvtCaisses = (List<MvtCaisseLigneDTO>) request.getAttribute("mvtCaisse[]");
+    LocalDate dmin = ((LocalDate) request.getAttribute("dmin"));
+    LocalDate dmax = ((LocalDate) request.getAttribute("dmax"));
     mvtCaisses.forEach(System.out::println);
 %>
 
 <form>
     <div class="d-flex justify-content-center">
-        <div class="card w-75">
+        <div class="card w-90">
             <div class="card-header">
                 <h5>Filtre Recherche</h5>
             </div>
@@ -18,13 +22,13 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <label>Date debut</label>
-                        <input type="date" class="form-control" name="dmin">
+                        <input type="date" class="form-control" name="dmin" value="<%=dmin != null ? dmin : ""%>">
 
                     </div>
 
                     <div class="col-lg-6">
                         <label>Date fin</label>
-                        <input type="date" class="form-control" name="dmax">
+                        <input type="date" class="form-control" name="dmax" value="<%=dmax != null ? dmax : ""%>">
 
                     </div>
                 </div>
@@ -50,16 +54,16 @@
         </div>
 
         <div class="card-body">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="tri-table">
                 <thead>
                 <tr>
                     <%--                    <th>ID</th>--%>
-                    <th>Date</th>
-                    <th>Numero Compte</th>
-                    <th>Libelle</th>
-                    <th>Entree</th>
-                    <th>Sortie</th>
-                    <th>Soldes</th>
+                    <th onclick="sortTable(0)">Date</th>
+                    <th onclick="sortTable(1)">Numero Compte</th>
+                    <th onclick="sortTable(2)">Libelle</th>
+                    <th onclick="sortTable(3)">Entree</th>
+                    <th onclick="sortTable(4)">Sortie</th>
+                    <th onclick="sortTable(5)">Soldes</th>
                 </tr>
                 </thead>
 
@@ -69,7 +73,7 @@
                 %>
                 <tr>
                     <%--                    <td><%=mvtCaisse.getId()%></td>--%>
-                    <td><%=mvtCaisse.getDate()%>
+                    <td><%=DateUtils.getFormatParDefaut(mvtCaisse.getDate())%>
                     </td>
                     <td><%=mvtCaisse.getCode()%>
                     </td>
@@ -95,10 +99,10 @@
 
 </div>
 
-<div class="d-flex justify-content-center mt-4">
+<div class="d-flex justify-content-center mt-5">
     <div class="card w-90">
         <div class="card-header">
-            <h5>Expoter</h5>
+            <h5>Exporter</h5>
         </div>
 
         <div class="card-body">
@@ -114,7 +118,7 @@
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <button type="submit" class="btn btn-primary">Exporter</button>
+                    <button onclick="genererPDF(<%=dmin != null ? "'" + dmin + "'": "null"%>, <%=dmax != null ? "'" + dmax + "'": "null"%>)" class="btn btn-primary">Exporter</button>
                 </div>
 
             </div>
@@ -129,3 +133,32 @@
 
 
 </div>
+
+<script>
+    function genererPDF(dmin, dmax) {
+        const data = {
+            dateMin: dmin,
+            dateMax: dmax
+        }
+        $.ajax({
+            url: environment.apiUrl + '/api/pdf/tresorerie/date',
+            method: 'GET',
+            data: data,
+            xhrFields: {
+                responseType: 'blob' // Important pour récupérer un fichier binaire
+            },
+            success: function(data, status, xhr) {
+                // Crée un lien temporaire pour le téléchargement
+                const blob = new Blob([data], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'toe-bola.pdf';
+                link.click();
+            },
+            error: function() {
+                alert('Erreur lors du téléchargement du PDF.');
+            }
+        });
+    }
+
+</script>
