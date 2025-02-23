@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.fiangonana.util.DateUtils;
 import org.example.fiangonana.util.NombreUtils;
-import org.example.fiangonana.util.TableauUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class MvtCaissePDF {
     private String titre;
     private LocalDate dateDebut;
     private LocalDate dateFin;
-    private List<MvtCaisseLigneDTO> lignes = new ArrayList<>();
+    private List<MvtCaisseLigne> lignes = new ArrayList<>();
     private Double totalEntree = null;
     private Double totalSortie = null;
 
@@ -106,7 +105,7 @@ public class MvtCaissePDF {
 
         // Lignes
         int i = 0;
-        for (MvtCaisseLigneDTO ligne : this.getLignes()) {
+        for (MvtCaisseLigne ligne : this.getLignes()) {
             PdfPCell dateCell = new PdfPCell(new Paragraph(ligne.getDate() != null ? ligne.getDate().format(DateTimeFormatter.ofPattern("dd / MM / yyyy")): "", cellFont));
             PdfPCell codeCell = new PdfPCell(new Paragraph(ligne.getCode(), cellFont));
             PdfPCell libelleCell = new PdfPCell(new Paragraph(ligne.getLibelle(), cellFont));
@@ -216,7 +215,7 @@ public class MvtCaissePDF {
         if(totalEntree != null) return totalEntree;
 
         double total = 0.00;
-        for(MvtCaisseLigneDTO mvtCaisse: this.getLignes()){
+        for(MvtCaisseLigne mvtCaisse: this.getLignes()){
             total += mvtCaisse.getEntree();
         }
         setTotalEntree(total);
@@ -227,7 +226,7 @@ public class MvtCaissePDF {
         if(totalSortie != null) return totalSortie;
 
         double total = 0.00;
-        for(MvtCaisseLigneDTO mvtCaisse: this.getLignes()){
+        for(MvtCaisseLigne mvtCaisse: this.getLignes()){
             total += mvtCaisse.getSortie();
         }
         setTotalSortie(total);

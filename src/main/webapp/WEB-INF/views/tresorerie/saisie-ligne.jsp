@@ -1,3 +1,4 @@
+<%@page pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.example.fiangonana.model.Code" %>
 <%@ page import="java.time.LocalDate" %>
@@ -5,6 +6,17 @@
     List<Code> codesEntree = ((List<Code>) request.getAttribute("codesEntree"));
     List<Code> codesSortie = ((List<Code>) request.getAttribute("codesSortie"));
 %>
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de saisir et d'enregistrer une operation(entrée ou sortie d'argent) effectué dans la tresorerie <br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mampiditra sy mitahiry ny vola miditra na mivoaka (ampidirina tsirairay)
+    </div>
+</div>
+
 <div class="d-flex justify-content-center">
 
         <div class="card w-50">
@@ -133,7 +145,7 @@
             <div class="card-footer">
                 <div class="d-flex justify-content-end gap-2">
                     <button type="reset" class="btn btn-warning">Reinitisaliser</button>
-                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
 
                 </div>
             </div>

@@ -34,4 +34,9 @@ public class GlobalExceptionHandler {
         sessionManager.addErrorAlert(HtmlTemplate.buildList(e.getMessages()));
         return modelAndView;
     }
+
+    @ExceptionHandler(NoUserLoggedException.class)
+    public String handleNoUserLoggedException(NoUserLoggedException e) {
+        return "redirect:/login?alert=Veuillex d'abord vous connecter";
+    }
 }

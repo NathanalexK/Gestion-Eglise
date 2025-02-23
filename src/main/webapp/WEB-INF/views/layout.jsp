@@ -69,7 +69,7 @@
 
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow btn-simple px-3 fw-bold" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     ADMIN
 <%--                                    <div class="avatar avatar-online">--%>
 <%--                                        <img src="/assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">--%>
@@ -108,7 +108,7 @@
                         </ul>
 <%--                    </div>--%>
                 </nav>
-                <div class="flex-grow-1 container-p-y">
+                <div class="flex-grow-1 container-p-y px-4">
                     <jsp:include page="<%=contentPage%>"/>
                 </div>
 

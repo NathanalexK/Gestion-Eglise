@@ -1,15 +1,29 @@
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.fiangonana.dto.tresorerie.MvtCaisseLigneDTO" %>
+<%@ page import="org.example.fiangonana.dto.tresorerie.MvtCaisseLigne" %>
 <%@ page import="org.example.fiangonana.model.MvtCaisse" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="org.example.fiangonana.util.DateUtils" %>
+<%@ page import="org.example.fiangonana.dto.tresorerie.MvtCaisseAffichage" %>
+<%@ page import="org.example.fiangonana.util.NombreUtils" %>
 <%@page pageEncoding="UTF-8" %>
 <%
-    List<MvtCaisseLigneDTO> mvtCaisses = (List<MvtCaisseLigneDTO>) request.getAttribute("mvtCaisse[]");
+    List<MvtCaisseLigne> mvtCaisses = (List<MvtCaisseLigne>) request.getAttribute("mvtCaisse[]");
     LocalDate dmin = ((LocalDate) request.getAttribute("dmin"));
     LocalDate dmax = ((LocalDate) request.getAttribute("dmax"));
     mvtCaisses.forEach(System.out::println);
+    MvtCaisseAffichage affichage = ((MvtCaisseAffichage) request.getAttribute("affichage"));
 %>
+
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de voir la liste des operations dans la tresorerie entre 2 dates<br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mahita ny vola miditra sy mivoaka rehetra anelenalan'ny daty anaikiroa (toe-bolan'ny fiangonana)
+    </div>
+</div>
 
 <form>
     <div class="d-flex justify-content-center">
@@ -46,6 +60,38 @@
     </div>
 </form>
 
+<div class="d-flex justify-content-center mt-5">
+    <div class="card w-90">
+        <div class="card-header green-gradient">
+            <h5>Tableau Recapitulatif</h5>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td>Total Entrée</td>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(affichage.getEntree())%> Ariary</td>
+                </tr>
+
+                <tr>
+                    <td>Total Sortie</td>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(affichage.getSortie())%> Ariary</td>
+                </tr>
+
+                <tr>
+                    <td>Soldes Final</td>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(affichage.getSolde())%> Ariary</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+
 
 <div class="d-flex justify-content-center mt-5">
     <div class="card w-90">
@@ -58,18 +104,18 @@
                 <thead>
                 <tr>
                     <%--                    <th>ID</th>--%>
-                    <th onclick="sortTable(0)">Date</th>
-                    <th onclick="sortTable(1)">Numero Compte</th>
-                    <th onclick="sortTable(2)">Libelle</th>
-                    <th onclick="sortTable(3)">Entree</th>
-                    <th onclick="sortTable(4)">Sortie</th>
-                    <th onclick="sortTable(5)">Soldes</th>
+                    <th onclick="sortTable('tri-table', 0)">Date</th>
+                    <th onclick="sortTable('tri-table',1)">Numero Compte</th>
+                    <th onclick="sortTable('tri-table',2)">Libelle</th>
+                    <th onclick="sortTable('tri-table',3)">Entree</th>
+                    <th onclick="sortTable('tri-table',4)">Sortie</th>
+                    <th onclick="sortTable('tri-table',5)">Soldes</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <%
-                    for (MvtCaisseLigneDTO mvtCaisse : mvtCaisses) {
+                    for (MvtCaisseLigne mvtCaisse : mvtCaisses) {
                 %>
                 <tr>
                     <%--                    <td><%=mvtCaisse.getId()%></td>--%>
@@ -98,6 +144,7 @@
     </div>
 
 </div>
+
 
 <div class="d-flex justify-content-center mt-5">
     <div class="card w-90">

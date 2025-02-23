@@ -2,7 +2,7 @@
 <%@ page import="org.example.fiangonana.webComponent.Menu" %>
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar" data-bg-class="bg-menu-theme" style="visibility: visible;">
-    <div class="nav-header d-flex gap-1 border-bottom align-items-center">
+    <div class="nav-header d-flex gap-1 border-bottom align-items-center" onclick="window.location.href = '/'">
         <img src="/assets/img/logo.png" alt="">
 
         <span class="nav-title text-center">EKAR SAINT MICHEL ITAOSY</span>
@@ -28,11 +28,11 @@
         </div>
 
         <ul class="nav-list-body">
-            <li><a href="${pageContext.request.contextPath}/tresorerie/saisie-ligne">Saisie Operation ligne</a></li>
+            <li><a href="${pageContext.request.contextPath}/tresorerie/saisie-ligne">Saisie Operation par ligne</a></li>
             <li><a href="${pageContext.request.contextPath}/tresorerie/saisie-ensemble">Saisie Operations ensemble</a></li>
             <li><a href="${pageContext.request.contextPath}/tresorerie/liste/date">Lister par date</a></li>
-            <li><a href="">Lister par mois</a></li>
-            <li><a href="">Recapitulatif</a></li>
+            <li><a href="${pageContext.request.contextPath}/tresorerie/recherche">Recherche</a></li>
+            <li><a href="${pageContext.request.contextPath}/tresorerie/recap">Rapport</a></li>
 
 
         </ul>

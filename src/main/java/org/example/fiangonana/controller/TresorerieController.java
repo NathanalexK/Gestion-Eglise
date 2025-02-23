@@ -1,11 +1,9 @@
 package org.example.fiangonana.controller;
 
 import org.example.fiangonana.component.SessionManager;
-import org.example.fiangonana.dto.tresorerie.ConfirmationSaisieMvtCaisseEnsemble;
-import org.example.fiangonana.dto.tresorerie.ValiderMvtCaisseDTO;
+import org.example.fiangonana.dto.tresorerie.*;
 import org.example.fiangonana.exception.ExceptionList;
 import org.example.fiangonana.model.MvtCaisse;
-import org.example.fiangonana.repository.CodeRepository;
 import org.example.fiangonana.service.CodeService;
 import org.example.fiangonana.service.MvtCaisseService;
 import org.example.fiangonana.util.DateUtils;
@@ -75,8 +73,8 @@ public class TresorerieController extends BaseController {
 
 
     @PostMapping("/valider")
-    public String valider(@ModelAttribute ValiderMvtCaisseDTO validerMvtCaisseDTO) throws Exception {
-        mvtCaisseService.enregistrerMvtCaisses(validerMvtCaisseDTO.getMvtCaisses());
+    public String valider(@ModelAttribute ValiderMvtCaisse validerMvtCaisse) throws Exception {
+        mvtCaisseService.enregistrerMvtCaisses(validerMvtCaisse.getMvtCaisses());
         sessionManager.addSuccessAlert("Operation ajouté avec succès!");
         return redirect("/test");
     }
@@ -93,9 +91,31 @@ public class TresorerieController extends BaseController {
         }
         ModelAndView modelAndView = this.getPage("tresorerie/liste-2dates.jsp");
         modelAndView.addObject("mvtCaisse[]", mvtCaisseService.getMvtCaissesEntre2Dates(dmin, dmax));
-
+        MvtCaisseAffichage affichage = new MvtCaisseAffichage();
+        affichage.setMvtCaisses(mvtCaisseService.getMvtCaissesEntre2Dates(dmin, dmax));
+        affichage.setDateMin(dmin);
+        affichage.setDateMax(dmax);
+        modelAndView.addObject("affichage", affichage);
         modelAndView.addObject("dmin", dmin);
         modelAndView.addObject("dmax", dmax);
+        return modelAndView;
+    }
+
+    @GetMapping("/recap")
+    public ModelAndView afficherRecapEntre2Dates(
+            @RequestParam(name = "dmin", required = false) LocalDate dmin,
+            @RequestParam(name = "dmax", required = false) LocalDate dmax
+    ) {
+
+        ModelAndView modelAndView = this.getPage("tresorerie/recap.jsp");
+        modelAndView.addObject("affichage", mvtCaisseService.getRecapAffichage(dmin, dmax));
+        return modelAndView;
+    }
+
+    @GetMapping("/recherche")
+    public ModelAndView afficherPageRecherche(@ModelAttribute MvtCaisseRechercheAffichage rechercheAffichage) {
+        ModelAndView modelAndView = this.getPage("tresorerie/recherche.jsp");
+        modelAndView.addObject("affichage", mvtCaisseService.recherche(rechercheAffichage));
         return modelAndView;
     }
 

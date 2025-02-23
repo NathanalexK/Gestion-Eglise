@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class MvtCaisseLigneDTO {
+public class MvtCaisseLigne {
     private Integer id;
     private String code;
     private LocalDate date;
@@ -19,10 +19,10 @@ public class MvtCaisseLigneDTO {
     private Double soldes;
 
 
-    public MvtCaisseLigneDTO() {
+    public MvtCaisseLigne() {
     }
 
-    public MvtCaisseLigneDTO(Integer id, String code, Date date, String libelle, BigDecimal entree, BigDecimal sortie, BigDecimal soldes) {
+    public MvtCaisseLigne(Integer id, String code, Date date, String libelle, BigDecimal entree, BigDecimal sortie, BigDecimal soldes) {
         this.id = id;
         this.code = code;
         this.date = date != null? date.toLocalDate(): null;

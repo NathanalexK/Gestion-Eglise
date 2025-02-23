@@ -1,6 +1,6 @@
 SELECT
     distinct libelle
-FROM mvt_caisse
+FROM mvt_caisse LIMIT 5;
 
 
 select
@@ -42,3 +42,22 @@ UNION (
 )
 ORDER BY date NULLS FIRST
 ;
+
+WITH caisse_recap AS (
+    SELECT
+        substring(code FROM 1 FOR 3)    as num_compte,
+        SUM(entree - mvt_caisse.sortie) as total
+    FROM mvt_caisse
+    group by substring(code FROM 1 FOR 3)
+)
+SELECT
+    recap.*,
+    c.libelle
+FROM caisse_recap recap
+JOIN codes c
+ON c.code like recap.num_compte
+
+
+SELECT
+    SUM(entree - sortie) as solde
+FROM mvt_caisse WHERE

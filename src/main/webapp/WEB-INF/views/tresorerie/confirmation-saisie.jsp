@@ -6,11 +6,23 @@
     List<MvtCaisse> mvtCaisses = ((List<MvtCaisse>) request.getAttribute("mvtCaisse[]"));
 %>
 
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de verifier et de confirmer ou annuler la saisie avant l'enregistrement<br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mijery sy manaiky na tsia ny zavatra nampidirina
+    </div>
+</div>
+
+
 <div class="d-flex justify-content-center">
     <div class="card w-100">
         <form action="/tresorerie/valider" method="POST">
             <div class="card-header">
-                <h4>Confirmer la saisie</h4>
+                <h5>Confirmer la saisie</h5>
             </div>
 
             <div class="card-body">

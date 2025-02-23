@@ -8,10 +8,21 @@
     int index = 0;
 %>
 
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de saisir et d'enregistrer plusieurs operations entrées et sorties d'argent en une fois <br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mampiditra sy mitahiry ny vola miditra na mivoaka maromaro amin'ny daty iray
+    </div>
+</div>
+
 <form class="form" action="${pageContext.request.contextPath}/tresorerie/saisie-ensemble/confirmer" method="post">
     <div class="d-flex justify-content-center">
         <div class="card w-50">
-            <div class="card-header d-flex pb-0">
+            <div class="card-header">
                 <h5>Saisie Operations Caisse</h5>
             </div>
 

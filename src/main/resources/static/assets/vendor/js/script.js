@@ -18,8 +18,8 @@ function creerSuggestionAutocomplete(items, input) {
 
 let sortDirection = {};
 
-function sortTable(columnIndex) {
-    const table = document.getElementById("tri-table");
+function sortTable(idTable, columnIndex) {
+    const table = document.getElementById(idTable);
     const tbody = table.tBodies[0];
     const rows = Array.from(tbody.rows);
 

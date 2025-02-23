@@ -8,6 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ValiderMvtCaisseDTO {
+public class ValiderMvtCaisse {
     private List<MvtCaisse> mvtCaisses;
 }
