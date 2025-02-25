@@ -314,7 +314,7 @@ h5 {
     padding: 0px !important;
 }
 
-.action-icon {
+.action-btn-icon {
     background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
     font-size: 1.25rem !important;
     border-radius: 0.3rem !important;
@@ -322,9 +322,17 @@ h5 {
     border: solid 1px;
     border-color: #cccccc !important;
 
-    padding: 0.25rem;
+    padding: 0rem 0.5rem;
     &:hover {
         background: #e6e6e6!important;
+    }
+}
+
+.action-icon {
+    color: blue !important;
+    /*background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);*/
+    i {
+        color: #0a53be;
     }
 }
 

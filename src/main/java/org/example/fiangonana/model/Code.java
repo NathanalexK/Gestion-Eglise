@@ -3,9 +3,11 @@ package org.example.fiangonana.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.fiangonana.exception.ExceptionList;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,5 +32,6 @@ public class Code {
     @ColumnDefault("now()")
     @Column(name = "date_creation")
     private LocalDate dateCreation;
+
 
 }

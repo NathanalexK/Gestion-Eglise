@@ -13,4 +13,10 @@ public interface CodeRepository extends JpaRepository<Code, Integer>, JpaSpecifi
 
     @Query("SELECT c FROM Code c WHERE c.code LIKE '3%'")
     List<Code> getCodesSortie();
+
+    @Query("select c from Code c where c.code = ?1")
+    Code findByNumeroCompte(String code);
+
+    @Query("SELECT c FROM Code c ORDER BY c.code ASC")
+    List<Code> findAllCodes();
 }

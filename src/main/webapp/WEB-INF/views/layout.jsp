@@ -53,6 +53,14 @@
 
             <div class="layout-page">
                 <nav class="layout-navbar px-4 navbar align-items-center" id="layout-navbar">
+                    <div class="btn-simple" onclick="history.back()">
+                        <i class="bx bx-arrow-back fw-bold" style="color: white!important;"></i>
+                        <span class="fw-bold">
+                                                    Retour
+
+                        </span>
+
+                    </div>
 <%--                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">--%>
 <%--                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">--%>
 <%--                            <i class="bx bx-menu bx-sm"></i>--%>
@@ -63,6 +71,7 @@
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
                             <!-- Place this tag where you want the button to render. -->
+
                             <li class="nav-item lh-1 me-3">
 <%--                                <%=u.getRole().name()%>--%>
                             </li>

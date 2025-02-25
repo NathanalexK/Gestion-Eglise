@@ -1,5 +1,6 @@
 package org.example.fiangonana.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.fiangonana.component.SessionManager;
 import org.example.fiangonana.dto.tresorerie.*;
 import org.example.fiangonana.exception.ExceptionList;
@@ -7,6 +8,7 @@ import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.service.CodeService;
 import org.example.fiangonana.service.MvtCaisseService;
 import org.example.fiangonana.util.DateUtils;
+import org.example.fiangonana.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,8 +31,10 @@ public class TresorerieController extends BaseController {
     }
 
     @GetMapping("/saisie-ligne")
-    public ModelAndView affichageSaisieParLigne() {
+    public ModelAndView affichageSaisieParLigne(@RequestParam(value = "id", required = false) MvtCaisse mvtCaisse) {
         ModelAndView modelAndView = this.getPage("tresorerie/saisie-ligne.jsp");
+        modelAndView.addObject("mvtCaisse", mvtCaisse);
+        System.out.println("MvtCaisse: " + mvtCaisse);
         modelAndView.addObject("codesEntree", codeService.getCodesEntrees());
         modelAndView.addObject("codesSortie", codeService.getCodesSorties());
         return modelAndView;
@@ -76,7 +80,7 @@ public class TresorerieController extends BaseController {
     public String valider(@ModelAttribute ValiderMvtCaisse validerMvtCaisse) throws Exception {
         mvtCaisseService.enregistrerMvtCaisses(validerMvtCaisse.getMvtCaisses());
         sessionManager.addSuccessAlert("Operation ajouté avec succès!");
-        return redirect("/test");
+        return redirect("/tresorerie/liste/date");
     }
 
     @GetMapping("/liste/date")
@@ -116,6 +120,28 @@ public class TresorerieController extends BaseController {
     public ModelAndView afficherPageRecherche(@ModelAttribute MvtCaisseRechercheAffichage rechercheAffichage) {
         ModelAndView modelAndView = this.getPage("tresorerie/recherche.jsp");
         modelAndView.addObject("affichage", mvtCaisseService.recherche(rechercheAffichage));
+        return modelAndView;
+    }
+
+    @GetMapping("/supprimer")
+    public String supprimerMvtCaisse(@RequestParam("id") MvtCaisse mvtCaisse, HttpServletRequest request) {
+        mvtCaisseService.supprimerMvtCaisse(mvtCaisse);
+        sessionManager.addSuccessAlert("Operation supprimé avec succès!");
+        return redirect(WebUtils.getUrlPrecedente(request));
+    }
+
+    @GetMapping("/recap/details")
+    public ModelAndView voirDetailsRecap(
+            @RequestParam("code") String numero,
+            @RequestParam("dateMin") LocalDate dateMin,
+            @RequestParam("dateMax") LocalDate dateMax
+    ) {
+        DetailsRecapTresorerie recap = new DetailsRecapTresorerie();
+        recap.setCode(numero);
+        recap.setDateMin(dateMin);
+        recap.setDateMax(dateMax);
+        ModelAndView modelAndView = this.getPage("tresorerie/details-recap.jsp");
+        modelAndView.addObject("affichage", mvtCaisseService.getDetailsRecapTresorie(recap));
         return modelAndView;
     }
 

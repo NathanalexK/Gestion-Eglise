@@ -25,4 +25,8 @@ public class ExceptionList extends Exception {
         return this.messages;
     }
 
+    public boolean containsMessages() {
+        return !this.getMessages().isEmpty();
+    }
+
 }

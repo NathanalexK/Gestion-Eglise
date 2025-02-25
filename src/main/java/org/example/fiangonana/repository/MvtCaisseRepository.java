@@ -64,15 +64,15 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
             
             WITH caisse_recap AS (
                 SELECT
-                    substring(code FROM 1 FOR 3)    as numero,
+                    code    as numero,
                     SUM(entree - mvt_caisse.sortie) as total
                 FROM mvt_caisse
                 WHERE COALESCE(:dmin, date) <= date AND COALESCE(:dmax, date) >= date
-                group by substring(code FROM 1 FOR 3)
+                group by code
                 ORDER BY numero ASC
             )
             SELECT
-                1 as numero,
+                numero,
                 c.libelle,
                 recap.total
             FROM caisse_recap recap

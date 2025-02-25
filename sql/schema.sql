@@ -32,4 +32,21 @@ CREATE TABLE "mvt_fond"
 alter table mvt_caisse drop column code;
 alter table mvt_caisse add column code VARCHAR(10);
 
+CREATE TABLE "type_transactions"
+(
+    "id" SMALLINT PRIMARY KEY,
+    "libelle" VARCHAR(20)
+)
+
+
+CREATE TABLE "historiques"
+(
+    "id" BIGSERIAL PRIMARY KEY,
+    "pk" BIGINT,
+    "type_transaction" SMALLINT REFERENCES type_transactions("id"),
+    "data" jsonb,
+    "date_creation" TIMESTAMP default now(),
+    "id_user" INTEGER references utilisateurs(id)
+);
+
 

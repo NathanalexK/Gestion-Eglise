@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class MvtCaisseRecapLigne {
-    private Integer numero;
+    private String numero;
     private String libelle;
     private Double total;
     private Integer type;
@@ -17,7 +17,7 @@ public class MvtCaisseRecapLigne {
     public MvtCaisseRecapLigne() {
     }
 
-    public MvtCaisseRecapLigne(Integer numero, String libelle, BigDecimal total) {
+    public MvtCaisseRecapLigne(String  numero, String libelle, BigDecimal total) {
         this.numero = numero;
         this.libelle = libelle;
         if(total == null) total = BigDecimal.valueOf(0);

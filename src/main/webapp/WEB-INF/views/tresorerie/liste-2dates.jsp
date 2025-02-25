@@ -110,6 +110,7 @@
                     <th onclick="sortTable('tri-table',3)">Entree</th>
                     <th onclick="sortTable('tri-table',4)">Sortie</th>
                     <th onclick="sortTable('tri-table',5)">Soldes</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -130,6 +131,22 @@
                     <td class="text-right"><%=mvtCaisse.getSortie()%>
                     </td>
                     <td class="text-right"><%=mvtCaisse.getSoldes()%>
+                    </td>
+                    <td class="d-flex gap-3">
+                        <%
+                            if(mvtCaisse.getId() != null) {
+                        %>
+                            <a href="${pageContext.request.contextPath}/tresorerie/saisie-ligne?id=<%=mvtCaisse.getId()%>" class="action-icon">
+                                <i class="bx bx-pencil"></i>
+                            </a>
+
+                            <a href="${pageContext.request.contextPath}/tresorerie/supprimer?id=<%=mvtCaisse.getId()%>" class="action-icon">
+                                <i class="bx bx-trash"></i>
+                            </a>
+                        <%
+                            }
+                        %>
+
                     </td>
                 </tr>
 

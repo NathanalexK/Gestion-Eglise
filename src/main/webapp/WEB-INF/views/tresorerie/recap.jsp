@@ -106,6 +106,7 @@
                     <th onclick="sortTable('table1', 0)">Numero</th>
                     <th>Libelle</th>
                     <th onclick="sortTable('table1', 2)">Total</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
 
@@ -121,6 +122,12 @@
                     <td><%=ligne.getLibelle()%>
                     </td>
                     <td class="text-right"><%=NombreUtils.affichageMonetaire(ligne.getTotal())%>
+                    </td>
+                    <td>
+                        <a href="/tresorerie/recap/details?code=<%=ligne.getNumero()%>&dateMin=<%=affichage.getDateDebut()%>&dateMax=<%=affichage.getDateFin()%>" class="action-icon">
+                            <i class="bx bx-info-circle"></i>
+<%--                            <%=ligne.getNumero()%>--%>
+                        </a>
                     </td>
                 </tr>
                 <%
@@ -153,6 +160,8 @@
                     <th>Numero</th>
                     <th>Libelle</th>
                     <th>Total</th>
+                    <th>Action</th>
+
                 </tr>
                 </thead>
 
@@ -168,6 +177,12 @@
                     <td><%=ligne.getLibelle()%>
                     </td>
                     <td class="text-right"><%=NombreUtils.affichageMonetaire(ligne.getTotal())%>
+                    </td>
+                    <td>
+                        <a href="/tresorerie/recap/details?code=<%=ligne.getNumero()%>&dateMin=<%=affichage.getDateDebut()%>&dateMax=<%=affichage.getDateFin()%>" class="action-icon">
+                            <i class="bx bx-info-circle"></i>
+                            <%--                            <%=ligne.getNumero()%>--%>
+                        </a>
                     </td>
                 </tr>
                 <%

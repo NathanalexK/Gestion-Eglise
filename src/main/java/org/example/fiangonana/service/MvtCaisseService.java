@@ -1,17 +1,12 @@
 package org.example.fiangonana.service;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.OrderBy;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
-import org.example.fiangonana.dto.tresorerie.MvtCaisseAffichage;
-import org.example.fiangonana.dto.tresorerie.MvtCaisseLigne;
-import org.example.fiangonana.dto.tresorerie.MvtCaisseRecap;
-import org.example.fiangonana.dto.tresorerie.MvtCaisseRechercheAffichage;
+import org.example.fiangonana.dto.tresorerie.*;
 import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.repository.MvtCaisseRepository;
 import org.example.fiangonana.util.DateUtils;
-import org.hibernate.query.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +35,10 @@ public class MvtCaisseService {
     public List<MvtCaisse> enregistrerMvtCaisses(List<MvtCaisse> mvtCaisses) throws Exception {
 //        if(mvtCaisses == null )
         return mvtCaisseRepository.saveAll(mvtCaisses);
+    }
+
+    public void supprimerMvtCaisse(MvtCaisse mvtCaisse) {
+        mvtCaisseRepository.delete(mvtCaisse);
     }
 
     public List<String> getLibelles(String motCle) {
@@ -103,4 +102,25 @@ public class MvtCaisseService {
         recherche.setMvtCaisses(em.createQuery(requete).getResultList());
         return recherche;
     }
+
+    public DetailsRecapTresorerie getDetailsRecapTresorie(DetailsRecapTresorerie recap) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<MvtCaisse> requete = cb.createQuery(MvtCaisse.class);
+        Root<MvtCaisse> table = requete.from(MvtCaisse.class);
+
+        Predicate apresWhere = cb.conjunction();
+        if(recap.getDateMin() != null) {
+            apresWhere = cb.and(apresWhere, cb.greaterThanOrEqualTo(table.get("date"), recap.getDateMin()));
+        }
+        if(recap.getDateMax() != null) {
+            apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("date"), recap.getDateMax()));
+        }
+        apresWhere = cb.and(apresWhere, cb.like(table.get("code"), recap.getCode()));
+        requete.where(apresWhere);
+        requete.orderBy(cb.asc(table.get("date")));
+        recap.setMvtCaisses(em.createQuery(requete).getResultList());
+        return recap;
+    }
+
+//    public
 }

@@ -44,6 +44,7 @@
                         int index = 0;
                         for (MvtCaisse mvtCaisse : mvtCaisses) {
                     %>
+                    <input type="hidden" name="mvtCaisses[<%=index%>].id" value="<%=mvtCaisse.getId() != null ? mvtCaisse.getId() : ""%>">
                     <tr>
                         <td>
                             <input type="text" class="form-readonly" name="mvtCaisses[<%=index%>].date" value="<%=mvtCaisse.getDate()%>" readonly>

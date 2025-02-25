@@ -2,9 +2,11 @@
 <%@ page import="java.util.List" %>
 <%@ page import="org.example.fiangonana.model.Code" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="org.example.fiangonana.model.MvtCaisse" %>
 <%
     List<Code> codesEntree = ((List<Code>) request.getAttribute("codesEntree"));
     List<Code> codesSortie = ((List<Code>) request.getAttribute("codesSortie"));
+    MvtCaisse mvtCaisse = ((MvtCaisse) request.getAttribute("mvtCaisse"));
 %>
 <div class="alert alert-info d-flex align-items-center gap-2">
     <div>
@@ -26,6 +28,9 @@
                 <h5>Saisie Operation Caisse</h5>
             </div>
 
+
+            <input type="hidden" name="id" value="<%=mvtCaisse != null ? mvtCaisse.getId() : ""%>">
+
             <div class="card-body">
                 <div class="mb-2">
                     <div class="mb-2">
@@ -35,7 +40,7 @@
                                 type="date"
                                 class="form-control"
                                 name="date"
-                                value="<%=LocalDate.now()%>"
+                                value="<%=mvtCaisse != null ? mvtCaisse.getDate() : LocalDate.now()%>"
                         >
 
                     </div>
@@ -83,6 +88,7 @@
                             name="code"
                             id="numero-input"
                             maxlength="10"
+                            value="<%=mvtCaisse != null ? mvtCaisse.getCode() : ""%>"
                     >
 
                 </div>
@@ -96,6 +102,7 @@
                             id="libelle-input"
                             name="libelle"
                             placeholder="ex: Fiarahabana eveka sy diakra"
+                            value="<%=mvtCaisse != null ? mvtCaisse.getLibelle() : ""%>"
                     >
 
 
@@ -108,7 +115,7 @@
                             type="number"
                             class="form-control"
                             name="entree"
-                            value="0.00"
+                            value="<%=mvtCaisse != null ? mvtCaisse.getEntree() : "0.00"%>"
                             step="0.01"
                     >
 
@@ -122,7 +129,7 @@
                             class="form-control"
                             name="sortie"
                             step="0.01"
-                            value="0.00"
+                            value="<%=mvtCaisse != null ? mvtCaisse.getSortie() : "0.00"%>"
                     >
 
                 </div>
@@ -145,7 +152,7 @@
             <div class="card-footer">
                 <div class="d-flex justify-content-end gap-2">
                     <button type="reset" class="btn btn-warning">Reinitisaliser</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="submit" class="btn btn-primary"><%=mvtCaisse != null ? "Modifier" : "Enregistrer"%></button>
 
                 </div>
             </div>

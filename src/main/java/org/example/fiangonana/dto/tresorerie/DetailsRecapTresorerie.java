@@ -2,27 +2,23 @@ package org.example.fiangonana.dto.tresorerie;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.fiangonana.model.Code;
 import org.example.fiangonana.model.MvtCaisse;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
 
 @Getter
 @Setter
-public class MvtCaisseRechercheAffichage {
+public class DetailsRecapTresorerie {
     private LocalDate dateMin;
     private LocalDate dateMax;
-    private String numeroCompte;
-    private Double entreeMin;
-    private Double entreeMax;
-    private Double sortieMin;
-    private Double sortieMax;
+    private String code;
     private String libelle;
-    private List<MvtCaisse> mvtCaisses = new ArrayList<>();
+    private List<MvtCaisse> mvtCaisses;
     private Double totalEntree;
     private Double totalSortie;
+
 
     public Double getTotalEntree() {
         if(this.totalEntree != null) return totalEntree;
@@ -49,7 +45,4 @@ public class MvtCaisseRechercheAffichage {
     public Double getTotal() {
         return this.getTotalEntree() - this.getTotalSortie();
     }
-
-
-
 }
