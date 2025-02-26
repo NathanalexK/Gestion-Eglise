@@ -5,6 +5,8 @@ import org.example.fiangonana.component.SessionManager;
 import org.example.fiangonana.dto.tresorerie.*;
 import org.example.fiangonana.exception.ExceptionList;
 import org.example.fiangonana.model.MvtCaisse;
+import org.example.fiangonana.model.Utilisateur;
+import org.example.fiangonana.service.AuthService;
 import org.example.fiangonana.service.CodeService;
 import org.example.fiangonana.service.MvtCaisseService;
 import org.example.fiangonana.util.DateUtils;
@@ -22,12 +24,14 @@ public class TresorerieController extends BaseController {
     private final CodeService codeService;
     private final MvtCaisseService mvtCaisseService;
     private final SessionManager sessionManager;
+    private final AuthService authService;
 
-    public TresorerieController(CodeService codeService, MvtCaisseService mvtCaisseService, SessionManager sessionManager) {
+    public TresorerieController(CodeService codeService, MvtCaisseService mvtCaisseService, SessionManager sessionManager, AuthService authService) {
         super();
         this.codeService = codeService;
         this.mvtCaisseService = mvtCaisseService;
         this.sessionManager = sessionManager;
+        this.authService = authService;
     }
 
     @GetMapping("/saisie-ligne")
@@ -78,7 +82,8 @@ public class TresorerieController extends BaseController {
 
     @PostMapping("/valider")
     public String valider(@ModelAttribute ValiderMvtCaisse validerMvtCaisse) throws Exception {
-        mvtCaisseService.enregistrerMvtCaisses(validerMvtCaisse.getMvtCaisses());
+        Utilisateur u = authService.utilisateurObligatoire();
+        mvtCaisseService.enregistrerMvtCaisses(validerMvtCaisse.getMvtCaisses(), u);
         sessionManager.addSuccessAlert("Operation ajouté avec succès!");
         return redirect("/tresorerie/liste/date");
     }

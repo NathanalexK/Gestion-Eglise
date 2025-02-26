@@ -18,3 +18,7 @@ insert into codes(code, libelle, description) VALUES ('321', 'Karama', '');
 insert into codes(code, libelle, description) VALUES ('341', 'Fanadiovana', '');
 insert into codes(code, libelle, description) VALUES ('351', 'Adidy isan-karazany', '');
 insert into codes(code, libelle, description) VALUES ('361', 'Ezaka miakatra', '');
+
+insert into type_transactions(id, libelle) VALUES (0, 'insertion');
+insert into type_transactions(id, libelle) VALUES (1, 'modification');
+insert into type_transactions(id, libelle) VALUES (2, 'suppression');

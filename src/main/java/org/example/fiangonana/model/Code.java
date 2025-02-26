@@ -32,6 +32,4 @@ public class Code {
     @ColumnDefault("now()")
     @Column(name = "date_creation")
     private LocalDate dateCreation;
-
-
 }

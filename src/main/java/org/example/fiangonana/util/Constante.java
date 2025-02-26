@@ -7,6 +7,8 @@ public class Constante {
     }
 
     public class transaction {
-        public static f
+        public static final int INSERTION = 0;
+        public static final int MODIFICATION = 1;
+        public static final int SUPPRESSION = 2;
     }
 }

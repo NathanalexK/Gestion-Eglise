@@ -16,7 +16,7 @@
         </div>
 
         <ul class="nav-list-body">
-            <li><a href="">Saisie compte</a></li>
+            <li><a href="${pageContext.request.contextPath}/compte/saisie">Saisie compte</a></li>
             <li><a href="">Lister  comptes</a></li>
         </ul>
     </div>

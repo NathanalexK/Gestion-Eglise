@@ -49,4 +49,5 @@ CREATE TABLE "historiques"
     "id_user" INTEGER references utilisateurs(id)
 );
 
+ALTER TABLE "historiques" ADD COLUMN "table_name" varchar(100);
 

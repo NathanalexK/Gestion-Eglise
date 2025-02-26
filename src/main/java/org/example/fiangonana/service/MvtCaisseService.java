@@ -3,28 +3,41 @@ package org.example.fiangonana.service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
+import jakarta.transaction.Transactional;
 import org.example.fiangonana.dto.tresorerie.*;
+import org.example.fiangonana.exception.NoUserLoggedException;
+import org.example.fiangonana.model.Historique;
 import org.example.fiangonana.model.MvtCaisse;
+import org.example.fiangonana.model.Utilisateur;
+import org.example.fiangonana.repository.HistoriqueRepository;
 import org.example.fiangonana.repository.MvtCaisseRepository;
 import org.example.fiangonana.util.DateUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MvtCaisseService {
 
     private final MvtCaisseRepository mvtCaisseRepository;
     private final JdbcTemplate jdbcTemplate;
+    private final AuthService authService;
 
     @PersistenceContext
     private EntityManager em;
+    private final HistoriqueRepository historiqueRepository;
 
-    public MvtCaisseService(MvtCaisseRepository mvtCaisseRepository, JdbcTemplate jdbcTemplate) {
+    public MvtCaisseService(MvtCaisseRepository mvtCaisseRepository, JdbcTemplate jdbcTemplate, AuthService authService,
+                            HistoriqueRepository historiqueRepository) {
         this.mvtCaisseRepository = mvtCaisseRepository;
         this.jdbcTemplate = jdbcTemplate;
+        this.authService = authService;
+        this.historiqueRepository = historiqueRepository;
     }
 
 
@@ -32,9 +45,39 @@ public class MvtCaisseService {
 //
 //    }
 
-    public List<MvtCaisse> enregistrerMvtCaisses(List<MvtCaisse> mvtCaisses) throws Exception {
+    @Transactional
+    public List<MvtCaisse> enregistrerMvtCaisses(List<MvtCaisse> mvtCaisses, Utilisateur u) throws Exception {
+        boolean isUpdate = false;
+        if(!mvtCaisses.isEmpty()) {
+            isUpdate = mvtCaisses.get(0).getId() != null;
+        }
 //        if(mvtCaisses == null )
-        return mvtCaisseRepository.saveAll(mvtCaisses);
+        mvtCaisseRepository.saveAll(mvtCaisses);
+
+        boolean finalIsUpdate = isUpdate;
+        Thread t = new Thread(() -> {
+            List<Historique> historiques = new ArrayList<>();
+            for(MvtCaisse mvtCaisse: mvtCaisses) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("code", mvtCaisse.getCode());
+                data.put("libelle", mvtCaisse.getLibelle());
+                data.put("entree", mvtCaisse.getEntree());
+                data.put("sortie", mvtCaisse.getSortie());
+                data.put("date", mvtCaisse.getDate());
+                data.put("observation", mvtCaisse.getObservation());
+                Historique h = null;
+                if(!finalIsUpdate) {
+                    h = Historique.makeInsertion(u, MvtCaisse.class, mvtCaisse.getId().longValue(), data);
+                } else  {
+                    h = Historique.makeModification(u, MvtCaisse.class, mvtCaisse.getId().longValue(), data);
+                }
+                historiques.add(h);
+            }
+            historiqueRepository.saveAll(historiques);
+
+        });
+        t.start();
+        return mvtCaisses;
     }
 
     public void supprimerMvtCaisse(MvtCaisse mvtCaisse) {

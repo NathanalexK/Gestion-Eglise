@@ -50,7 +50,7 @@
                             class="form-select"
                     >
 
-                        <optgroup label="Miditra">
+                        <optgroup label="Miditra (Recette)">
                             <%
                                 for (Code code : codesEntree) {
                             %>
@@ -63,7 +63,7 @@
                         </optgroup>
 
 
-                        <optgroup label="Mivoaka">
+                        <optgroup label="Mivoaka (Depense)">
                             <%
                                 for (Code code : codesSortie) {
                             %>
@@ -189,6 +189,11 @@
             }, 1000);
 
         }) ;
+
+        $('#categorie-input').select2({
+            placeholder: "Sélectionnez une option",
+            allowClear: true
+        });
 
 
 
