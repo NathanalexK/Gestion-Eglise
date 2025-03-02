@@ -50,12 +50,15 @@
                             <input type="text" class="form-readonly" name="mvtCaisses[<%=index%>].date" value="<%=mvtCaisse.getDate()%>" readonly>
                         </td>
 
+
+
                         <td>
                             <input type="text" name="mvtCaisses[<%=index%>].code" value="<%=mvtCaisse.getCode()%>" class="form-readonly" readonly>
                         </td>
 
                         <td>
-                            <input type="text" name="mvtCaisses[<%=index%>].libelle" value="<%=mvtCaisse.getLibelle()%>" class="form-readonly" readonly>
+                            <input type="text" name="" value="<%=mvtCaisse.getCompte().getLibelle()%>" class="form-readonly" readonly>
+                            <input type="hidden" name="mvtCaisses[<%=index%>].compte" value="<%=mvtCaisse.getCompte().getId()%>">
                         </td>
 
                         <td>

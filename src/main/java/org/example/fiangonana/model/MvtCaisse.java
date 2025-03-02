@@ -38,14 +38,18 @@ public class MvtCaisse {
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_compte")
+    private Code compte;
 
-    public boolean estValide() {
-        boolean checkMontant = (this.getEntree() > 0 || this.getSortie() > 0) && this.getEntree() >= 0 && this.getSortie() >= 0;
-        boolean checkCode = this.getCode().length() < 3;
-        boolean checkLibelle = this.getLibelle().length() > 4;
 
-        return checkMontant && checkCode && checkLibelle;
-    }
+//    public boolean estValide() {
+//        boolean checkMontant = (this.getEntree() > 0 || this.getSortie() > 0) && this.getEntree() >= 0 && this.getSortie() >= 0;
+//        boolean checkCode = this.getCode().length() < 3;
+//        boolean checkLibelle = this.getLibelle().length() > 4;
+//
+//        return checkMontant && checkCode && checkLibelle;
+//    }
 
     public void controller() throws Exception {
         if(this.getEntree() < 0 || this.getSortie() < 0) {
@@ -56,17 +60,19 @@ public class MvtCaisse {
             throw new Exception("Montant invalide: entrée et sortie ne doit pas être 0.00 en même temps");
         }
 
-        if(this.getCode().length() < 3) {
-            throw new Exception("Le code ou numero compte doit contenir au moins 3 chiffres");
-        }
+//        if()
 
-        if(this.getCode().length() > 10) {
-            throw new Exception("Le code ou numero compte doit contenir au plus dix chiffres");
-        }
-
-        if(this.getLibelle().length() < 4) {
-            throw new Exception("Libellé doit contenir au moins 4 caractères");
-        }
+//        if(this.getCode().length() < 3) {
+//            throw new Exception("Le code ou numero compte doit contenir au moins 3 chiffres");
+//        }
+//
+//        if(this.getCode().length() > 10) {
+//            throw new Exception("Le code ou numero compte doit contenir au plus dix chiffres");
+//        }
+//
+//        if(this.getLibelle().length() < 4) {
+//            throw new Exception("Libellé doit contenir au moins 4 caractères");
+//        }
     }
 
 //    public void checkDate() {

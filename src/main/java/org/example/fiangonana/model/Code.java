@@ -32,4 +32,8 @@ public class Code {
     @ColumnDefault("now()")
     @Column(name = "date_creation")
     private LocalDate dateCreation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_categorie")
+    private CategorieCompte categorieCompte;
 }

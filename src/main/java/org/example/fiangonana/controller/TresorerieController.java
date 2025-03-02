@@ -7,6 +7,7 @@ import org.example.fiangonana.exception.ExceptionList;
 import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.model.Utilisateur;
 import org.example.fiangonana.service.AuthService;
+import org.example.fiangonana.service.CategorieCompteService;
 import org.example.fiangonana.service.CodeService;
 import org.example.fiangonana.service.MvtCaisseService;
 import org.example.fiangonana.util.DateUtils;
@@ -25,20 +26,24 @@ public class TresorerieController extends BaseController {
     private final MvtCaisseService mvtCaisseService;
     private final SessionManager sessionManager;
     private final AuthService authService;
+    private final CategorieCompteService categorieCompteService;
 
-    public TresorerieController(CodeService codeService, MvtCaisseService mvtCaisseService, SessionManager sessionManager, AuthService authService) {
+    public TresorerieController(CodeService codeService, MvtCaisseService mvtCaisseService, SessionManager sessionManager, AuthService authService, CategorieCompteService categorieCompteService) {
         super();
         this.codeService = codeService;
         this.mvtCaisseService = mvtCaisseService;
         this.sessionManager = sessionManager;
         this.authService = authService;
+        this.categorieCompteService = categorieCompteService;
     }
 
     @GetMapping("/saisie-ligne")
-    public ModelAndView affichageSaisieParLigne(@RequestParam(value = "id", required = false) MvtCaisse mvtCaisse) {
+    public ModelAndView affichageSaisieParLigne(@RequestParam(value = "id", required = false) MvtCaisse mvtCaisse)
+    {
         ModelAndView modelAndView = this.getPage("tresorerie/saisie-ligne.jsp");
         modelAndView.addObject("mvtCaisse", mvtCaisse);
         System.out.println("MvtCaisse: " + mvtCaisse);
+        modelAndView.addObject("categories", categorieCompteService.getAllCategorieComptes());
         modelAndView.addObject("codesEntree", codeService.getCodesEntrees());
         modelAndView.addObject("codesSortie", codeService.getCodesSorties());
         return modelAndView;

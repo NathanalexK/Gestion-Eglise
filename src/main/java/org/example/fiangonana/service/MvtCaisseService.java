@@ -55,28 +55,28 @@ public class MvtCaisseService {
         mvtCaisseRepository.saveAll(mvtCaisses);
 
         boolean finalIsUpdate = isUpdate;
-        Thread t = new Thread(() -> {
-            List<Historique> historiques = new ArrayList<>();
-            for(MvtCaisse mvtCaisse: mvtCaisses) {
-                Map<String, Object> data = new HashMap<>();
-                data.put("code", mvtCaisse.getCode());
-                data.put("libelle", mvtCaisse.getLibelle());
-                data.put("entree", mvtCaisse.getEntree());
-                data.put("sortie", mvtCaisse.getSortie());
-                data.put("date", mvtCaisse.getDate());
-                data.put("observation", mvtCaisse.getObservation());
-                Historique h = null;
-                if(!finalIsUpdate) {
-                    h = Historique.makeInsertion(u, MvtCaisse.class, mvtCaisse.getId().longValue(), data);
-                } else  {
-                    h = Historique.makeModification(u, MvtCaisse.class, mvtCaisse.getId().longValue(), data);
-                }
-                historiques.add(h);
-            }
-            historiqueRepository.saveAll(historiques);
-
-        });
-        t.start();
+//        Thread t = new Thread(() -> {
+//            List<Historique> historiques = new ArrayList<>();
+//            for(MvtCaisse mvtCaisse: mvtCaisses) {
+//                Map<String, Object> data = new HashMap<>();
+//                data.put("code", mvtCaisse.getCode());
+//                data.put("libelle", mvtCaisse.getLibelle());
+//                data.put("entree", mvtCaisse.getEntree());
+//                data.put("sortie", mvtCaisse.getSortie());
+//                data.put("date", mvtCaisse.getDate());
+//                data.put("observation", mvtCaisse.getObservation());
+//                Historique h = null;
+//                if(!finalIsUpdate) {
+//                    h = Historique.makeInsertion(u, MvtCaisse.class, mvtCaisse.getId().longValue(), data);
+//                } else  {
+//                    h = Historique.makeModification(u, MvtCaisse.class, mvtCaisse.getId().longValue(), data);
+//                }
+//                historiques.add(h);
+//            }
+//            historiqueRepository.saveAll(historiques);
+//
+//        });
+//        t.start();
         return mvtCaisses;
     }
 

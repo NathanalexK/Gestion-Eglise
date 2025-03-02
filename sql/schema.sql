@@ -15,6 +15,8 @@ CREATE TABLE "codes"
     "description"   TEXT,
     "date_creation" DATE    DEFAULT now()
 );
+ALTER TABLE codes ADD COLUMN "id_categorie" INTEGER REFERENCES categorie_comptes(id);
+ALTER TABLE codes ADD COLUMN "est_groupe" boolean;
 
 
 CREATE TABLE "mvt_fond"
@@ -38,6 +40,8 @@ CREATE TABLE "type_transactions"
     "libelle" VARCHAR(20)
 )
 
+ALTER TABLE mvt_caisse add column id_compte INT REFERENCES codes(id);
+
 
 CREATE TABLE "historiques"
 (
@@ -50,4 +54,26 @@ CREATE TABLE "historiques"
 );
 
 ALTER TABLE "historiques" ADD COLUMN "table_name" varchar(100);
+
+CREATE TABLE "type_compte"
+(
+    "id" SERIAL PRIMARY KEY,
+    "libelle" varchar(50)
+);
+
+
+CREATE TABLE "categorie_comptes" (
+    "id" SERIAL PRIMARY KEY,
+    "libelle" varchar(100),
+    "type" INTEGER REFERENCES type_compte("id")
+);
+
+CREATE TABLE "groupe_compte_recaps" (
+    "id" SERIAL PRIMARY KEY,
+    "libelle" varchar(100),
+    "description" text
+);
+ALTER TABLE "groupe_compte_recaps" ADD COLUMN "type" INTEGER REFERENCES type_compte("id");
+ALTER TABLE "groupe_compte_recaps" ADD COLUMN ""
+
 

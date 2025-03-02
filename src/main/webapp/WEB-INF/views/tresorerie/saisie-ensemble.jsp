@@ -6,6 +6,8 @@
     List<Code> codesEntree = ((List<Code>) request.getAttribute("codesEntree"));
     List<Code> codesSortie = ((List<Code>) request.getAttribute("codesSortie"));
     int index = 0;
+
+
 %>
 
 <div class="alert alert-info d-flex align-items-center gap-2">
@@ -67,98 +69,98 @@
                     </thead>
 
                     <tbody id="form-table">
-                    <%
-                        for (; index < 10; index++) {
-                    %>
-                    <tr>
-                        <td>
-                            <select
-                                    id="categorie-input"
-                                    class="form-select form-select-sm categorie-input"
-                            >
-                                <option value=""></option>
+<%--                    <%--%>
+<%--                        for (; index < 10; index++) {--%>
+<%--                    %>--%>
+<%--                    <tr>--%>
+<%--                        <td>--%>
+<%--                            <select--%>
+<%--                                    id="categorie-input"--%>
+<%--                                    class="form-select form-select-sm categorie-input"--%>
+<%--                            >--%>
+<%--                                <option value=""></option>--%>
 
-                                <optgroup label="Miditra">
-                                    <%
-                                        for (Code code : codesEntree) {
-                                    %>
-                                    <option value="<%=code.getCode()%>"><%=code.getCode()%> - <%=code.getLibelle()%>
-                                    </option>
-                                    <%
-                                        }
-                                    %>
+<%--                                <optgroup label="Miditra">--%>
+<%--                                    <%--%>
+<%--                                        for (Code code : codesEntree) {--%>
+<%--                                    %>--%>
+<%--                                    <option value="<%=code.getCode()%>"><%=code.getCode()%> - <%=code.getLibelle()%>--%>
+<%--                                    </option>--%>
+<%--                                    <%--%>
+<%--                                        }--%>
+<%--                                    %>--%>
 
-                                </optgroup>
-
-
-                                <optgroup label="Mivoaka">
-                                    <%
-                                        for (Code code : codesSortie) {
-                                    %>
-                                    <option value="<%=code.getCode()%>"><%=code.getCode()%> - <%=code.getLibelle()%>
-                                    </option>
-                                    <%
-                                        }
-                                    %>
-
-                                </optgroup>
-
-                            </select>
-                        </td>
-
-                        <td>
-                            <input
-                                    type="text"
-                                    class="form-control form-control-sm code-input"
-                                    name="mvtCaisses[<%=index%>].code"
-                                    id="numero-input"
-                                    maxlength="10"
-                            >
-                        </td>
-
-                        <td>
-                            <input
-                                    type="text"
-                                    class="form-control form-control-sm libelle-input"
-                                    name="mvtCaisses[<%=index%>].libelle"
-                            <%--                                placeholder="ex: Fiarahabana eveka sy diakra"--%>
-                            >
-                        </td>
-
-                        <td>
-                            <input
-                                    type="number"
-                                    class="form-control text-right form-control-sm"
-                                    name="mvtCaisses[<%=index%>].entree"
-                                    value="0.00"
-                                    step="0.01"
-                            >
-                        </td>
-
-                        <td>
-                            <input
-                                    type="number"
-                                    class="form-control text-right form-control-sm"
-                                    name="mvtCaisses[<%=index%>].sortie"
-                                    step="0.01"
-                                    value="0.00"
-                            >
-                        </td>
-
-                        <td>
-                            <input
-                                    type="text"
-                                    class="form-control form-control-sm"
-                                    name="mvtCaisses[<%=index%>].observation"
-
-                            >
-                        </td>
+<%--                                </optgroup>--%>
 
 
-                    </tr>
-                    <%
-                        }
-                    %>
+<%--                                <optgroup label="Mivoaka">--%>
+<%--                                    <%--%>
+<%--                                        for (Code code : codesSortie) {--%>
+<%--                                    %>--%>
+<%--                                    <option value="<%=code.getCode()%>"><%=code.getCode()%> - <%=code.getLibelle()%>--%>
+<%--                                    </option>--%>
+<%--                                    <%--%>
+<%--                                        }--%>
+<%--                                    %>--%>
+
+<%--                                </optgroup>--%>
+
+<%--                            </select>--%>
+<%--                        </td>--%>
+
+<%--                        <td>--%>
+<%--                            <input--%>
+<%--                                    type="text"--%>
+<%--                                    class="form-control form-control-sm code-input"--%>
+<%--                                    name="mvtCaisses[<%=index%>].code"--%>
+<%--                                    id="numero-input"--%>
+<%--                                    maxlength="10"--%>
+<%--                            >--%>
+<%--                        </td>--%>
+
+<%--                        <td>--%>
+<%--                            <input--%>
+<%--                                    type="text"--%>
+<%--                                    class="form-control form-control-sm libelle-input"--%>
+<%--                                    name="mvtCaisses[<%=index%>].libelle"--%>
+<%--                            &lt;%&ndash;                                placeholder="ex: Fiarahabana eveka sy diakra"&ndash;%&gt;--%>
+<%--                            >--%>
+<%--                        </td>--%>
+
+<%--                        <td>--%>
+<%--                            <input--%>
+<%--                                    type="number"--%>
+<%--                                    class="form-control text-right form-control-sm"--%>
+<%--                                    name="mvtCaisses[<%=index%>].entree"--%>
+<%--                                    value="0.00"--%>
+<%--                                    step="0.01"--%>
+<%--                            >--%>
+<%--                        </td>--%>
+
+<%--                        <td>--%>
+<%--                            <input--%>
+<%--                                    type="number"--%>
+<%--                                    class="form-control text-right form-control-sm"--%>
+<%--                                    name="mvtCaisses[<%=index%>].sortie"--%>
+<%--                                    step="0.01"--%>
+<%--                                    value="0.00"--%>
+<%--                            >--%>
+<%--                        </td>--%>
+
+<%--                        <td>--%>
+<%--                            <input--%>
+<%--                                    type="text"--%>
+<%--                                    class="form-control form-control-sm"--%>
+<%--                                    name="mvtCaisses[<%=index%>].observation"--%>
+
+<%--                            >--%>
+<%--                        </td>--%>
+
+
+<%--                    </tr>--%>
+<%--                    <%--%>
+<%--                        }--%>
+<%--                    %>--%>
 
                     </tbody>
 
@@ -197,6 +199,23 @@
             changerNumeroCompte(ligne);
         });
 
+
+
+        initSelect2()
+
+        // $('.categorie-input').each(function() {
+        //     console.log("a")
+        //     $(this).select2({
+        //         placeholder: "Select an option",
+        //         allowClear: true
+        //     });
+        // });
+
+        // $(document).on('select2:open', '.categorie-input', function() {
+        //     console.log("asc")
+        //     $('.categorie-input').select2();
+        // });
+
         const libelleInputs = $('.libelle-input');
         libelleInputs.on('keyup', function () {
             const libelleInput = $(this);
@@ -218,12 +237,17 @@
 
     });
 
+    <%
+
+    %>
+
     function ajouterUneLigne() {
         // const ligneForm = $(document).find('#ligne-form');
         const formTable = $(document).find('#form-table');
         // formTable.find('tbody')
         formTable.append(ligneHtml);
         updateIndices();
+        initSelect2()
     }
 
     function updateIndices() {
@@ -235,6 +259,18 @@
                 input.name = newName;
             });
         });
+    }
+
+    function initSelect2() {
+        console.log("as")
+        $('.categorie-input').select2({
+            width: '400px',
+            className: 'aaa',
+            // minWidth: '500px',
+            placeholder: "Select an option",
+            allowClear: true
+        });
+
     }
 
     function getSuggestionLibelle(motCle) {
@@ -329,3 +365,9 @@
     `
 
 </script>
+
+<%
+    for(int i = 0; i < 10; i++) {
+        out.print("<script>ajouterUneLigne()</script>");
+    }
+%>

@@ -3,9 +3,11 @@
 <%@ page import="org.example.fiangonana.model.Code" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="org.example.fiangonana.model.MvtCaisse" %>
+<%@ page import="org.example.fiangonana.model.CategorieCompte" %>
 <%
     List<Code> codesEntree = ((List<Code>) request.getAttribute("codesEntree"));
     List<Code> codesSortie = ((List<Code>) request.getAttribute("codesSortie"));
+    List<CategorieCompte> categories = ((List<CategorieCompte>) request.getAttribute("categories"));
     MvtCaisse mvtCaisse = ((MvtCaisse) request.getAttribute("mvtCaisse"));
 %>
 <div class="alert alert-info d-flex align-items-center gap-2">
@@ -48,30 +50,50 @@
                     <select
                             id="categorie-input"
                             class="form-select"
+                            name="compte"
                     >
 
-                        <optgroup label="Miditra (Recette)">
                             <%
-                                for (Code code : codesEntree) {
+                                for(CategorieCompte categorie: categories) {
                             %>
-                            <option value="<%=code.getCode()%>"><%=code.getCode()%> - <%=code.getLibelle()%>
-                            </option>
+                                <optgroup label="<%=categorie.getLibelle()%>">
+                                    <%
+                                        for(Code code: categorie.getCodes()) {
+                                    %>
+                                    <option value="<%=code.getId()%>"><%=code.getCode()%> - <%=code.getLibelle()%></option>
+                                    <%
+                                        }
+                                    %>
+
+
+                                </optgroup>
+
                             <%
                                 }
                             %>
 
-                        </optgroup>
+<%--                        <optgroup label="Miditra (Recette)">--%>
+<%--                            <%--%>
+<%--                                for (Code code : codesEntree) {--%>
+<%--                            %>--%>
+<%--                            <option value="<%=code.getId()%>"><%=code.getCode()%> - <%=code.getLibelle()%>--%>
+<%--                            </option>--%>
+<%--                            <%--%>
+<%--                                }--%>
+<%--                            %>--%>
+
+<%--                        </optgroup>--%>
 
 
-                        <optgroup label="Mivoaka (Depense)">
-                            <%
-                                for (Code code : codesSortie) {
-                            %>
-                            <option value="<%=code.getCode()%>"><%=code.getCode()%> - <%=code.getLibelle()%>
-                            </option>
-                            <%
-                                }
-                            %>
+<%--                        <optgroup label="Mivoaka (Depense)">--%>
+<%--                            <%--%>
+<%--                                for (Code code : codesSortie) {--%>
+<%--                            %>--%>
+<%--                            <option value="<%=code.getId()%>"><%=code.getCode()%> - <%=code.getLibelle()%>--%>
+<%--                            </option>--%>
+<%--                            <%--%>
+<%--                                }--%>
+<%--                            %>--%>
 
                         </optgroup>
 

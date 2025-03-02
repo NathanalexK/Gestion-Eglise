@@ -1,7 +1,10 @@
 <%@page pageEncoding="UTF-8" %>
 
-<%@ page import="org.example.fiangonana.model.Code" %><%
+<%@ page import="org.example.fiangonana.model.Code" %>
+<%@ page import="java.util.List" %>
+<%@ page import="org.example.fiangonana.model.CategorieCompte" %><%
     Code code =((Code) request.getAttribute("code"));
+    List<CategorieCompte> categories = ((List<CategorieCompte>) request.getAttribute("categories"));
 %>
 
 
@@ -34,6 +37,20 @@
                         class="form-control"
                         value="<%=code != null ? code.getLibelle() : ""%>"
                 >
+            </div>
+
+            <div class="mb-3">
+                <label>Categorie</label>
+                <select name="categorieCompte" id="">
+                    <%
+                        for(CategorieCompte categorie: categories) {
+                    %>
+                    <option value="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
+                    <%
+                        }
+                    %>
+                </select>
+
             </div>
 
             <div class="mb-3">
