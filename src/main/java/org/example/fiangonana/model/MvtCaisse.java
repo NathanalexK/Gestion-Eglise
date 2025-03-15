@@ -42,6 +42,10 @@ public class MvtCaisse {
     @JoinColumn(name = "id_compte")
     private Code compte;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_budget")
+    private Budget budget;
+
 
 //    public boolean estValide() {
 //        boolean checkMontant = (this.getEntree() > 0 || this.getSortie() > 0) && this.getEntree() >= 0 && this.getSortie() >= 0;
@@ -50,6 +54,13 @@ public class MvtCaisse {
 //
 //        return checkMontant && checkCode && checkLibelle;
 //    }
+
+    public String getLibelleFormu() {
+        if(this.getLibelle() == null || this.getLibelle().trim().isBlank()) {
+            return this.getCompte().getLibelle();
+        }
+        return this.getLibelle();
+    }
 
     public void controller() throws Exception {
         if(this.getEntree() < 0 || this.getSortie() < 0) {

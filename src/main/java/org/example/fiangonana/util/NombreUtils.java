@@ -1,5 +1,6 @@
 package org.example.fiangonana.util;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 public class NombreUtils {
@@ -23,5 +24,9 @@ public class NombreUtils {
 
         // Appliquer le format
         return decimalFormat.format(d).replace(',', ' ').replace('.', ',');
+    }
+
+    public static Double getDouble(BigDecimal b) {
+        return b != null ? b.doubleValue() : null;
     }
 }

@@ -3,6 +3,8 @@ package org.example.fiangonana.dto.tresorerie;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.fiangonana.model.MvtCaisse;
+import org.example.fiangonana.util.PageNavigation;
+import org.hibernate.query.Page;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public class MvtCaisseRechercheAffichage {
     private List<MvtCaisse> mvtCaisses = new ArrayList<>();
     private Double totalEntree;
     private Double totalSortie;
+
+    private PageNavigation pageNavigation = new PageNavigation();
 
     public Double getTotalEntree() {
         if(this.totalEntree != null) return totalEntree;

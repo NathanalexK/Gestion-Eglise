@@ -2,6 +2,7 @@ package org.example.fiangonana.dto.tresorerie;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.fiangonana.util.Constante;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -42,5 +43,9 @@ public class MvtCaisseLigne {
                 ", sortie=" + sortie +
                 ", soldes=" + soldes +
                 '}';
+    }
+
+    public boolean isCompteSolde() {
+        return this.getCode().equals(Constante.compte.COMPTE_SOLDE);
     }
 }

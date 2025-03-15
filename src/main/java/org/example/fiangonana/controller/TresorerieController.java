@@ -6,10 +6,7 @@ import org.example.fiangonana.dto.tresorerie.*;
 import org.example.fiangonana.exception.ExceptionList;
 import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.model.Utilisateur;
-import org.example.fiangonana.service.AuthService;
-import org.example.fiangonana.service.CategorieCompteService;
-import org.example.fiangonana.service.CodeService;
-import org.example.fiangonana.service.MvtCaisseService;
+import org.example.fiangonana.service.*;
 import org.example.fiangonana.util.DateUtils;
 import org.example.fiangonana.util.WebUtils;
 import org.springframework.stereotype.Controller;
@@ -27,14 +24,17 @@ public class TresorerieController extends BaseController {
     private final SessionManager sessionManager;
     private final AuthService authService;
     private final CategorieCompteService categorieCompteService;
+    private final BudgetService budgetService;
 
-    public TresorerieController(CodeService codeService, MvtCaisseService mvtCaisseService, SessionManager sessionManager, AuthService authService, CategorieCompteService categorieCompteService) {
+
+    public TresorerieController(CodeService codeService, MvtCaisseService mvtCaisseService, SessionManager sessionManager, AuthService authService, CategorieCompteService categorieCompteService, BudgetService budgetService) {
         super();
         this.codeService = codeService;
         this.mvtCaisseService = mvtCaisseService;
         this.sessionManager = sessionManager;
         this.authService = authService;
         this.categorieCompteService = categorieCompteService;
+        this.budgetService = budgetService;
     }
 
     @GetMapping("/saisie-ligne")
@@ -44,8 +44,9 @@ public class TresorerieController extends BaseController {
         modelAndView.addObject("mvtCaisse", mvtCaisse);
         System.out.println("MvtCaisse: " + mvtCaisse);
         modelAndView.addObject("categories", categorieCompteService.getAllCategorieComptes());
-        modelAndView.addObject("codesEntree", codeService.getCodesEntrees());
-        modelAndView.addObject("codesSortie", codeService.getCodesSorties());
+        modelAndView.addObject("budget[]", budgetService.getAllBudgetsCompletsDisponibles());
+//        modelAndView.addObject("codesEntree", codeService.getCodesEntrees());
+//        modelAndView.addObject("codesSortie", codeService.getCodesSorties());
         return modelAndView;
     }
 
@@ -66,6 +67,8 @@ public class TresorerieController extends BaseController {
         ModelAndView modelAndView = this.getPage("tresorerie/saisie-ensemble.jsp");
         modelAndView.addObject("codesEntree", codeService.getCodesEntrees());
         modelAndView.addObject("codesSortie", codeService.getCodesSorties());
+        modelAndView.addObject("categories", categorieCompteService.getAllCategorieComptes());
+        modelAndView.addObject("budget[]", budgetService.getAllBudgetsCompletsDisponibles());
         return modelAndView;
     }
 
@@ -142,14 +145,16 @@ public class TresorerieController extends BaseController {
 
     @GetMapping("/recap/details")
     public ModelAndView voirDetailsRecap(
-            @RequestParam("code") String numero,
+            @RequestParam("idGroupe") Integer idGroupe,
             @RequestParam("dateMin") LocalDate dateMin,
-            @RequestParam("dateMax") LocalDate dateMax
+            @RequestParam("dateMax") LocalDate dateMax,
+            @RequestParam(name = "lib", required = false, defaultValue = "") String lib
     ) {
         DetailsRecapTresorerie recap = new DetailsRecapTresorerie();
-        recap.setCode(numero);
+        recap.setIdGroupe(idGroupe);
         recap.setDateMin(dateMin);
         recap.setDateMax(dateMax);
+        recap.setLibelle(lib);
         ModelAndView modelAndView = this.getPage("tresorerie/details-recap.jsp");
         modelAndView.addObject("affichage", mvtCaisseService.getDetailsRecapTresorie(recap));
         return modelAndView;

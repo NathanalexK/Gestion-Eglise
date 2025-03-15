@@ -124,9 +124,9 @@
                     <td class="text-right"><%=NombreUtils.affichageMonetaire(ligne.getTotal())%>
                     </td>
                     <td>
-                        <a href="/tresorerie/recap/details?code=<%=ligne.getNumero()%>&dateMin=<%=affichage.getDateDebut()%>&dateMax=<%=affichage.getDateFin()%>" class="action-icon">
+                        <a href="/tresorerie/recap/details?idGroupe=<%=ligne.getNumero()%>&dateMin=<%=affichage.getDateDebut()%>&dateMax=<%=affichage.getDateFin()%>&lib=<%=ligne.getLibOrigine()%>" class="action-icon">
                             <i class="bx bx-info-circle"></i>
-<%--                            <%=ligne.getNumero()%>--%>
+                            <%--                            <%=ligne.getNumero()%>--%>
                         </a>
                     </td>
                 </tr>
@@ -179,7 +179,7 @@
                     <td class="text-right"><%=NombreUtils.affichageMonetaire(ligne.getTotal())%>
                     </td>
                     <td>
-                        <a href="/tresorerie/recap/details?code=<%=ligne.getNumero()%>&dateMin=<%=affichage.getDateDebut()%>&dateMax=<%=affichage.getDateFin()%>" class="action-icon">
+                        <a href="/tresorerie/recap/details?idGroupe=<%=ligne.getNumero()%>&dateMin=<%=affichage.getDateDebut()%>&dateMax=<%=affichage.getDateFin()%>&lib=<%=ligne.getLibOrigine()%>" class="action-icon">
                             <i class="bx bx-info-circle"></i>
                             <%--                            <%=ligne.getNumero()%>--%>
                         </a>
@@ -201,3 +201,62 @@
     </div>
 
 </div>
+
+
+<div class="d-flex justify-content-center mb-5">
+    <div class="card w-90">
+        <div class="card-header">
+            <h5>Exporter</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex" style="gap: 3rem">
+                <div class="d-flex align-items-center">
+                    <input type="radio" class="" value="pdf" checked name="filetype">
+                    <img src="${pageContext.request.contextPath}/assets/icons/pdf.png" width="64">
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <input type="radio" value="csv" name="filetype">
+                    <img src="${pageContext.request.contextPath}/assets/icons/excel.png" width="64">
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <button onclick="genererExcel(<%=dmin != null ? "'" + dmin + "'": "null"%>, <%=dmax != null ? "'" + dmax + "'": "null"%>)" class="btn btn-primary">Exporter</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    function genererExcel(dmin, dmax) {
+        const data = {
+            dateMin: dmin,
+            dateMax: dmax
+        }
+        $.ajax({
+            url: environment.apiUrl + '/api/csv/rapport',
+            method: 'GET',
+            data: data,
+            xhrFields: {
+                responseType: 'blob' // Important pour récupérer un fichier binaire
+            },
+            success: function(data, status, xhr) {
+                // Crée un lien temporaire pour le téléchargement
+                // const blob = new Blob([data], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(data);
+                link.download = 'tatitra.xlsx';
+                link.click();
+            },
+            error: function() {
+                alert('Erreur lors du téléchargement du Excel.');
+            }
+        });
+    }
+</script>

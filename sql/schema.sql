@@ -67,6 +67,7 @@ CREATE TABLE "categorie_comptes" (
     "libelle" varchar(100),
     "type" INTEGER REFERENCES type_compte("id")
 );
+ALTER TABLE "categorie_comptes" ADD COLUMN "description" TEXT;
 
 CREATE TABLE "groupe_compte_recaps" (
     "id" SERIAL PRIMARY KEY,
@@ -74,6 +75,28 @@ CREATE TABLE "groupe_compte_recaps" (
     "description" text
 );
 ALTER TABLE "groupe_compte_recaps" ADD COLUMN "type" INTEGER REFERENCES type_compte("id");
-ALTER TABLE "groupe_compte_recaps" ADD COLUMN ""
+ALTER TABLE "groupe_compte_recaps" ADD COLUMN "identification" VARCHAR(50);
+ALTER TABLE "codes" ADD COLUMN "id_groupe" INTEGER REFERENCES groupe_compte_recaps("id");
+ALTER TABLE "groupe_compte_recaps" ADD COLUMN "mots_exclu" TEXT;
 
+CREATE TABLE "budgets" (
+    "id" SERIAL PRIMARY KEY,
+    "libelle" varchar(100),
+    "montant" NUMERIC(18,2),
+    "date_debut" DATE,
+    "date_fin" DATE,
+    "date_arret" DATE NULL DEFAULT NULL,
+    "reste" NUMERIC(18,2)
+);
+
+ALTER TABLE "mvt_caisse" ADD COLUMN "id_budget" INTEGER REFERENCES budgets("id");
+
+CREATE TABLE "type_payements" (
+    "id" SMALLINT PRIMARY KEY,
+    "libelle" varchar(50)
+);
+
+ALTER TABLE budgets ADD COLUMN description TEXT;
+
+ALTER TABLE mvt_caisse ADD COLUMN "date_creation" timestamp DEFAULT now();
 

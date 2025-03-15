@@ -11,4 +11,8 @@ public class Constante {
         public static final int MODIFICATION = 1;
         public static final int SUPPRESSION = 2;
     }
+
+    public class compte {
+        public static final String COMPTE_SOLDE = "2111";
+    }
 }

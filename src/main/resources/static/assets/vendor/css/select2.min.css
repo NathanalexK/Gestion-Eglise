@@ -393,7 +393,8 @@
 .select2-container--default .select2-results__group {
     cursor: default;
     display: block;
-    padding: 6px
+    padding-top: 25px;
+    padding-bottom: 0px;
 }
 
 .select2-container--classic .select2-selection--single {

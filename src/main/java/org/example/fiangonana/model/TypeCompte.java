@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -17,5 +20,11 @@ public class TypeCompte {
 
     @Column(name = "libelle", length = 50)
     private String libelle;
+
+    @OneToMany(mappedBy = "typeCompte", fetch = FetchType.LAZY)
+    private List<CategorieCompte> categorieComptes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "type", fetch = FetchType.LAZY)
+    private List<GroupeCompteRecap> groupeCompteRecaps = new ArrayList<>();
 
 }

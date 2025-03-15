@@ -80,6 +80,16 @@
                 </tr>
 
                 <tr>
+                    <td>Total</td>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(affichage.getTotal())%> Ariary</td>
+                </tr>
+
+                <tr>
+                    <td>Soldes précédent <%=" le " +( affichage.getDateMin() != null ? DateUtils.getFormatParDefaut(affichage.getDateMin()): "")%></td>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(affichage.getSoldePrecedent())%> Ariary</td>
+                </tr>
+
+                <tr>
                     <td>Soldes Final</td>
                     <td class="text-right"><%=NombreUtils.affichageMonetaire(affichage.getSolde())%> Ariary</td>
                 </tr>
@@ -100,7 +110,7 @@
         </div>
 
         <div class="card-body">
-            <table class="table table-bordered" id="tri-table">
+            <table class="table table-bordered  table-altered" id="tri-table">
                 <thead>
                 <tr>
                     <%--                    <th>ID</th>--%>
@@ -187,12 +197,6 @@
 
             </div>
         </div>
-
-        <%--        <div class="card-footer">--%>
-        <%--            <div class="d-flex justify-content-end">--%>
-        <%--                <button type="submit" class="btn btn-primary">Exporter</button>--%>
-        <%--            </div>--%>
-        <%--        </div>--%>
     </div>
 
 

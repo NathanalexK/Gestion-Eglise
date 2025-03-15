@@ -1,11 +1,10 @@
 package org.example.fiangonana.util;
 
-import org.example.fiangonana.dto.util.DateIntervalleDTO;
-
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Objects;
 
 public class DateUtils {
     public static String getDateMalgache(LocalDate localDate) {
@@ -30,5 +29,18 @@ public class DateUtils {
         LocalDate debutMois = mois.atDay(1);
         LocalDate finMois = mois.atEndOfMonth();
         return new LocalDate[]{debutMois, finMois};
+    }
+
+    public static String affichageIntervalleDateMalgache(LocalDate dmin, LocalDate dmax) {
+        Locale mg = new Locale("mg");
+        String str = "ny ?1 hatramin'ny ?2";
+        if(Objects.equals(dmin.getYear(), dmax.getYear())) {
+            return str
+                    .replace("?1", dmin.format(DateTimeFormatter.ofPattern("dd MMMM", mg)))
+                    .replace("?2", dmax.format(DateTimeFormatter.ofPattern("dd MMMM yyyy", mg)));
+        }
+        return str
+                .replace("?1", getDateMalgache(dmin))
+                .replace("?2", getDateMalgache(dmax));
     }
 }

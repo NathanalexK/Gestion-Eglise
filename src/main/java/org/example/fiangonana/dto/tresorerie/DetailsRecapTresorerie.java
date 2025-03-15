@@ -13,6 +13,7 @@ import java.util.List;
 public class DetailsRecapTresorerie {
     private LocalDate dateMin;
     private LocalDate dateMax;
+    private Integer idGroupe;
     private String code;
     private String libelle;
     private List<MvtCaisse> mvtCaisses;

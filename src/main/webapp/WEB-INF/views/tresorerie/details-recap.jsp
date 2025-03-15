@@ -20,6 +20,40 @@
     </div>
 </div>
 
+<div class="d-flex justify-content-center">
+    <div class="card w-50">
+        <div class="card-header">
+            <h5>Details Rubrique</h5>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>ID rubrique</td>
+                    <td><%=affichage.getIdGroupe()%></td>
+                </tr>
+                <tr>
+                    <td>Nom rubrique</td>
+                    <td><%=affichage.getLibelle()%></td>
+                </tr>
+
+                <tr>
+                    <td>Date</td>
+                    <td>Du <%=DateUtils.getFormatParDefaut(affichage.getDateMin())%> au <%=DateUtils.getFormatParDefaut(affichage.getDateMax())%></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card-footer">
+            <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-basic" onclick="history.back()">Retour</button>
+                <a href="${pageContext.request.contextPath}/groupe-compte/saisie?id=<%=affichage.getIdGroupe()%>"><button class="btn btn-warning">Modifier</button></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <div class="d-flex justify-content-center mt-5 mb-5">
     <div class="card w-90">
         <div class="card-header green-gradient">
@@ -121,3 +155,4 @@
     </div>
 
 </div>
+

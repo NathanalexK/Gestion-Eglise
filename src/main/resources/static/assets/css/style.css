@@ -45,12 +45,15 @@ th.sorted-desc::after {
 }
 
 .nav-header {
-    background-color: #9CAAB9;
+    /*background-color: #9CAAB9;*/
+    background: linear-gradient(#c1cdda, #3c4e62);
     cursor: pointer;
 }
 
 .nav-title {
-    color: #ffe7ab;
+    /*color: #ffe7ab;*/
+    color: rgb(246, 246, 248) !important;
+    text-shadow: 0px -1.5px 0px #1d2849, 0px 1px 0px #dfe5ee;
     font-weight: bold;
     font-size: 19px;
 }
@@ -80,7 +83,12 @@ li {
     color: white !important;
     gap: 0.5rem;
     font-size: 20px;
-    background: linear-gradient(#ffc85e, #da8404);
+    background: linear-gradient(#fdcc71, #ce7d05);
+    /*box-shadow: 0px 2px 5px rgba(61, 61, 61, 0.56);*/
+    /*margin-bottom: 0.2rem;*/
+    border-bottom: solid 1px #8c5b02;
+    border-top: solid 1px #9f660a;
+
 }
 
 .nav-list-header span {
@@ -91,9 +99,15 @@ li {
     color: white !important;
 }
 
-#layout-menu {
+.nav-list-body {
+    /*box-shadow:  inset 0px 2px 8px rgba(0, 0, 0, 0.26); */
+    padding: 0.5rem 1.5rem;
+    margin: 0;
+}
 
-    /*background-color: #e8e8e8 !important;*/
+#layout-menu {
+    /*background-color: rgba(255, 255, 255, 0.04) !important;*/
+    border-right: solid 1px #b0b0b0;
 }
 
 .depth {
@@ -124,4 +138,46 @@ li {
     border-bottom: solid 1px #969696 !important;
     box-shadow: 0px 1px 5px rgba(143, 143, 143, 0.32);
 
+}
+
+li.title {
+    /*margin-top: 0.4rem;*/
+    margin-left: -1rem !important;
+    /*text-decoration: underline;*/
+    list-style: none;
+    color: #0558d2;
+
+    font-weight: bold;
+}
+
+.pagination {
+    display: flex ;
+    align-items: center;
+}
+
+.page-item {
+    height: 40px;
+    border: solid 1px gray;
+}
+
+.toggle-sidebar {
+   margin-right: 2rem !important;
+    cursor: pointer;
+}
+
+.toolbar-icon {
+    font-size: 24px !important;
+    padding: 0.5rem;
+    border-radius: 0.5rem !important; ;
+    border: solid 1px #9b9b9b;
+    background: linear-gradient(#ffffff, #dadada);
+    cursor: pointer;
+
+    &:hover {
+        background: linear-gradient(#d5d5d5, #f1f1f1);
+    }
+    /*box-shadow:*/
+    /*         0px 1px 0px rgba(117, 117, 117, 0.99), !* Outer shadow *!*/
+    /*        inset 0px 1px 0px rgba(59, 59, 59, 0.83); !* Inner shadow *!*/
+    /*box-shadow: 0px  1px 3px rgba(0, 0, 0, 0.18);*/
 }

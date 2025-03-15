@@ -3,7 +3,7 @@
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar" data-bg-class="bg-menu-theme" style="visibility: visible;">
     <div class="nav-header d-flex gap-1 border-bottom align-items-center" onclick="window.location.href = '/'">
-        <img src="/assets/img/logo.png" alt="">
+        <img src="/assets/img/logo.png" alt="" class="depth">
 
         <span class="nav-title text-center">EKAR SAINT MICHEL ITAOSY</span>
         
@@ -16,8 +16,29 @@
         </div>
 
         <ul class="nav-list-body">
+            <li class="title">Compte</li>
             <li><a href="${pageContext.request.contextPath}/compte/saisie">Saisie compte</a></li>
-            <li><a href="">Lister  comptes</a></li>
+            <li><a href="${pageContext.request.contextPath}/compte/liste">Lister  comptes</a></li>
+            <li class="title">Categorie Compte</li>
+            <li><a href="${pageContext.request.contextPath}/categorie-compte/saisie">Saisie categorie compte</a></li>
+            <li><a href="${pageContext.request.contextPath}/categorie-compte/liste">Lister categories comptes</a></li>
+            <li class="title">Compte Rapport</li>
+            <li><a href="${pageContext.request.contextPath}/groupe-compte/saisie">Saisie groupe compte recap</a></li>
+            <li><a href="${pageContext.request.contextPath}/groupe-compte/liste">Lister groupes comptes recap</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-list">
+        <div class="nav-list-header">
+            <i class="bx bx-money"></i>
+            <span>Budget</span>
+        </div>
+
+        <ul class="nav-list-body">
+            <li><a href="${pageContext.request.contextPath}/budget/saisie">Saisie budget</a></li>
+            <li><a href="${pageContext.request.contextPath}/budget/liste">Lister budget</a></li>
+
+
         </ul>
     </div>
 
@@ -36,6 +57,13 @@
 
 
         </ul>
+    </div>
+
+    <div class="nav-list">
+        <div class="nav-list-header">
+<%--            <i></i>--%>
+            <span style="height: 30px"></span>
+        </div>
     </div>
 
 

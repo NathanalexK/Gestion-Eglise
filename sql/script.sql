@@ -55,9 +55,49 @@ SELECT
     c.libelle
 FROM caisse_recap recap
 JOIN codes c
-ON c.code like recap.num_compte
+ON c.code like recap.num_compte;
 
 
 SELECT
     SUM(entree - sortie) as solde
-FROM mvt_caisse WHERE
+FROM mvt_caisse WHERE;
+
+
+CREATE OR REPLACE view v_budget_cpl AS
+WITH budget_use AS (
+    SELECT
+        id_budget,
+        SUM(sortie) as use
+    FROM mvt_caisse
+    WHERE id_budget IS NOT NULL
+    GROUP BY id_budget
+)
+SELECT
+    b.*,
+    COALESCE(bu.use, 0) as montant_use,
+    b.montant - COALESCE(bu.use, 0) as reste
+FROM budgets b
+LEFT JOIN budget_use bu
+ON b.id = bu.id_budget;
+
+\d codes;
+
+
+WITH rapport AS (
+    SELECT
+        g.id,
+        STRING_AGG(DISTINCT mvt.libelle, ', ') AS lib_details,
+        SUM(entree - sortie) AS total
+    FROM mvt_caisse mvt
+    JOIN codes c ON mvt.id_compte = c.id
+    JOIN groupe_compte_recaps g ON c.id_groupe = g.id
+    GROUP BY g.id
+)
+SELECT
+    r.id AS numero,
+    g.identification as libelle,
+    r.total as total,
+    r.lib_details as lib_details
+FROM rapport r
+JOIN groupe_compte_recaps g ON r.id = g.id
+-- JOIN groupe_compte_recaps O

@@ -21,4 +21,9 @@ public class CategorieCompteService
     {
         return categorieCompteRepository.findAll();
     }
+
+    public CategorieCompte enregistrer(CategorieCompte cc)
+    {
+        return categorieCompteRepository.save(cc);
+    }
 }

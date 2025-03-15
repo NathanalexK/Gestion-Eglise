@@ -34,6 +34,7 @@
                         <th>Libelle</th>
                         <th>Entrée</th>
                         <th>Sortie</th>
+                        <th>Budget</th>
                         <th>Observation</th>
                     </tr>
 
@@ -53,11 +54,12 @@
 
 
                         <td>
-                            <input type="text" name="mvtCaisses[<%=index%>].code" value="<%=mvtCaisse.getCode()%>" class="form-readonly" readonly>
+                            <input type="hidden" name="mvtCaisses[<%=index%>].compte" value="<%=mvtCaisse.getCompte().getId()%>">
+                            <input type="text" name="mvtCaisses[<%=index%>].code" value="<%=mvtCaisse.getCompte().getCode()%>" class="form-readonly" readonly>
                         </td>
 
                         <td>
-                            <input type="text" name="" value="<%=mvtCaisse.getCompte().getLibelle()%>" class="form-readonly" readonly>
+                            <input type="text" name="mvtCaisses[<%=index%>].libelle" value="<%=mvtCaisse.getLibelleFormu()%>" class="form-readonly" readonly>
                             <input type="hidden" name="mvtCaisses[<%=index%>].compte" value="<%=mvtCaisse.getCompte().getId()%>">
                         </td>
 
@@ -69,6 +71,10 @@
                             <input type="text" name="mvtCaisses[<%=index%>].sortie" value="<%=mvtCaisse.getSortie()%>" class="form-readonly" readonly>
                         </td>
 
+                        <td>
+                            <input type="hidden" name="mvtCaisses[<%=index%>].budget" value="<%=mvtCaisse.getBudget() != null ? mvtCaisse.getBudget().getId() : ""%>">
+                            <input type="text" class="form-readonly" value="<%=mvtCaisse.getBudget() != null ? mvtCaisse.getBudget().getLibelle() : "Pas de budget" %>" readonly>
+                        </td>
                         <td>
                             <input type="text" name="mvtCaisses[<%=index%>].observation" value="<%=mvtCaisse.getObservation()%>" class="form-readonly" readonly>
                         </td>

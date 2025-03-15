@@ -6,12 +6,17 @@ import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import org.example.fiangonana.dto.tresorerie.*;
 import org.example.fiangonana.exception.NoUserLoggedException;
+import org.example.fiangonana.model.Budget;
 import org.example.fiangonana.model.Historique;
 import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.model.Utilisateur;
 import org.example.fiangonana.repository.HistoriqueRepository;
 import org.example.fiangonana.repository.MvtCaisseRepository;
 import org.example.fiangonana.util.DateUtils;
+import org.example.fiangonana.util.PageNavigation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -108,42 +113,66 @@ public class MvtCaisseService {
         return recap;
     }
 
+    public List<MvtCaisse> getAllByIdBudget(Integer idBudget) {
+        return mvtCaisseRepository.findAllByBudget(idBudget);
+    }
+
     public MvtCaisseRechercheAffichage recherche(MvtCaisseRechercheAffichage recherche) {
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<MvtCaisse> requete = cb.createQuery(MvtCaisse.class);
-
-        Root<MvtCaisse> table = requete.from(MvtCaisse.class);
-        Predicate apresWhere = cb.conjunction();
-
-        if(recherche.getDateMin() != null) {
-            apresWhere = cb.and(apresWhere, cb.greaterThanOrEqualTo(table.get("date"), recherche.getDateMin()));
-        }
-        if(recherche.getDateMax() != null) {
-            apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("date"), recherche.getDateMax()));
-        }
-        if(recherche.getNumeroCompte() != null) {
-            apresWhere = cb.and(apresWhere,cb.like(table.get("code"), recherche.getNumeroCompte() + "%"));
-        }
-        if(recherche.getEntreeMin() != null) {
-            apresWhere = cb.and(apresWhere, cb.greaterThanOrEqualTo(table.get("entree"), recherche.getEntreeMin()));
-        }
-        if(recherche.getEntreeMax() != null) {
-            apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("entree"), recherche.getEntreeMax()));
-        }
-        if(recherche.getSortieMin() != null) {
-            apresWhere = cb.and(apresWhere, cb.greaterThanOrEqualTo(table.get("sortie"), recherche.getSortieMin()));
-        }
-        if(recherche.getSortieMax() != null) {
-            apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("sortie"), recherche.getSortieMax()));
-        }
-        if(recherche.getLibelle() != null) {
-            apresWhere = cb.and(apresWhere, cb.like(cb.lower(table.get("libelle")), "%" + recherche.getLibelle().toLowerCase() + "%"));
-        }
-        requete.where(apresWhere);
-        requete.orderBy(cb.asc(table.get("date")));
-        recherche.setMvtCaisses(em.createQuery(requete).getResultList());
+        Pageable pageable = PageRequest.of(recherche.getPageNavigation().getNumeroPage(), recherche.getPageNavigation().getTaillePage());
+        Page<MvtCaisse> elements = mvtCaisseRepository.recherche(
+                recherche.getDateMin(),
+                recherche.getDateMax(),
+                recherche.getNumeroCompte(),
+                recherche.getEntreeMin(),
+                recherche.getEntreeMax(),
+                recherche.getSortieMin(),
+                recherche.getSortieMax(),
+                recherche.getLibelle(),
+                pageable
+        );
+        recherche.setMvtCaisses(elements.getContent());
+        recherche.setPageNavigation(new PageNavigation(elements));
         return recherche;
+
+//        if(pageNumber == null) pageNumber = 0;
+//        if(pageSize == null) pageSize = 200;
+
+//        return recherche.setP
+
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        CriteriaQuery<MvtCaisse> requete = cb.createQuery(MvtCaisse.class);
+//
+//        Root<MvtCaisse> table = requete.from(MvtCaisse.class);
+//        Predicate apresWhere = cb.conjunction();
+//
+//        if(recherche.getDateMin() != null) {
+//            apresWhere = cb.and(apresWhere, cb.greaterThanOrEqualTo(table.get("date"), recherche.getDateMin()));
+//        }
+//        if(recherche.getDateMax() != null) {
+//            apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("date"), recherche.getDateMax()));
+//        }
+//        if(recherche.getNumeroCompte() != null) {
+//            apresWhere = cb.and(apresWhere,cb.like(table.get("code"), recherche.getNumeroCompte() + "%"));
+//        }
+//        if(recherche.getEntreeMin() != null) {
+//            apresWhere = cb.and(apresWhere, cb.greaterThanOrEqualTo(table.get("entree"), recherche.getEntreeMin()));
+//        }
+//        if(recherche.getEntreeMax() != null) {
+//            apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("entree"), recherche.getEntreeMax()));
+//        }
+//        if(recherche.getSortieMin() != null) {
+//            apresWhere = cb.and(apresWhere, cb.greaterThanOrEqualTo(table.get("sortie"), recherche.getSortieMin()));
+//        }
+//        if(recherche.getSortieMax() != null) {
+//            apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("sortie"), recherche.getSortieMax()));
+//        }
+//        if(recherche.getLibelle() != null) {
+//            apresWhere = cb.and(apresWhere, cb.like(cb.lower(table.get("libelle")), "%" + recherche.getLibelle().toLowerCase() + "%"));
+//        }
+//        requete.where(apresWhere);
+//        requete.orderBy(cb.asc(table.get("date")));
+//        recherche.setMvtCaisses(em.createQuery(requete).getResultList());
+//        return recherche;
     }
 
     public DetailsRecapTresorerie getDetailsRecapTresorie(DetailsRecapTresorerie recap) {
@@ -158,7 +187,7 @@ public class MvtCaisseService {
         if(recap.getDateMax() != null) {
             apresWhere = cb.and(apresWhere, cb.lessThanOrEqualTo(table.get("date"), recap.getDateMax()));
         }
-        apresWhere = cb.and(apresWhere, cb.like(table.get("code"), recap.getCode()));
+        apresWhere = cb.and(apresWhere, cb.equal(table.join("compte").join("groupeCompteRecap").get("id"), recap.getIdGroupe()));
         requete.where(apresWhere);
         requete.orderBy(cb.asc(table.get("date")));
         recap.setMvtCaisses(em.createQuery(requete).getResultList());

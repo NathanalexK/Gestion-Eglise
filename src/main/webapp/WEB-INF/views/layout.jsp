@@ -2,6 +2,10 @@
 <%@page pageEncoding="UTF-8" %>
 
 <%
+    if(session.getAttribute("u") == null) {
+        response.sendRedirect("/login");
+        return;
+    }
     String contentPage = (String) request.getAttribute("content");
 %>
 
@@ -56,14 +60,24 @@
 
             <div class="layout-page">
                 <nav class="layout-navbar px-4 navbar align-items-center" id="layout-navbar">
-                    <div class="btn-simple" onclick="history.back()">
-                        <i class="bx bx-arrow-back fw-bold" style="color: white!important;"></i>
-                        <span class="fw-bold">
-                                                    Retour
+<%--                    <div id="nav-logo" class="nav-header d-flex gap-1 border-bottom align-items-center" style="margin-right: 2rem; display: none" onclick="window.location.href = '/'">--%>
+                        <img id="nav-logo" src="/assets/img/logo.png" style="margin-right: 2rem; display: none"  alt="" height="54px">
+<%--                    </div>--%>
 
-                        </span>
+                    <div class="d-flex left-toolbar gap-3">
+                        <i class="bx bx-sidebar toolbar-icon" onclick="toggleSidebar()"></i>
+                        <i class="bx bx-chevron-left toolbar-icon" onclick="history.back()"></i>
+                        <i class="bx bx-chevron-right toolbar-icon" onclick="history.forward()"></i>
 
                     </div>
+<%--                    <div class="btn-simple" onclick="history.back()">--%>
+<%--                        <i class="bx bx-arrow-back fw-bold" style="color: white!important;"></i>--%>
+<%--                        <span class="fw-bold">--%>
+<%--                                                    Retour--%>
+
+<%--                        </span>--%>
+
+<%--                    </div>--%>
 <%--                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">--%>
 <%--                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">--%>
 <%--                            <i class="bx bx-menu bx-sm"></i>--%>
@@ -120,9 +134,16 @@
                         </ul>
 <%--                    </div>--%>
                 </nav>
-                <div class="flex-grow-1 container-p-y px-4">
+                <div class=" container-p-y px-4">
                     <jsp:include page="<%=contentPage%>"/>
+
                 </div>
+
+                <div class="bg-white px-3 py-1 flex-grow-1 mt-2">
+                   Copyright © 2025  Nathanalex | Tous droits reservés.
+
+                </div>
+
 
 
             </div>
@@ -133,6 +154,7 @@
 </body>
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+
 <%--<script src="/assets/vendor/libs/jquery/jquery.js"></script>--%>
 <script src="/assets/vendor/libs/popper/popper.js"></script>
 <script src="/assets/vendor/js/bootstrap.js"></script>
@@ -178,5 +200,15 @@
         session.removeAttribute("swal");
     }
 %>
+
+<script>
+    function toggleSidebar() {
+        const layoutMenu = $('#layout-menu');
+        const isHide = layoutMenu.css('display') === 'none';
+        layoutMenu.css('display', isHide ? 'block' : 'none');
+        $('#nav-logo').css('display', isHide ? 'none' : 'block');
+    }
+
+</script>
 
 </html>

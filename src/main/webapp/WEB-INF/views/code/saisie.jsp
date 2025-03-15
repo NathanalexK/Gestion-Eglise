@@ -2,12 +2,19 @@
 
 <%@ page import="org.example.fiangonana.model.Code" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.fiangonana.model.CategorieCompte" %><%
+<%@ page import="org.example.fiangonana.model.CategorieCompte" %>
+<%@ page import="org.example.fiangonana.model.GroupeCompteRecap" %>
+<%@ page import="java.util.Objects" %>
+<%@ page import="org.example.fiangonana.model.TypeCompte" %>
+<%
     Code code =((Code) request.getAttribute("code"));
-    List<CategorieCompte> categories = ((List<CategorieCompte>) request.getAttribute("categories"));
+//    List<CategorieCompte> categories = ((List<CategorieCompte>) request.getAttribute("categories"));
+    List<TypeCompte> typeComptes = ((List<TypeCompte>) request.getAttribute("type[]"));
+//    List<GroupeCompteRecap> groupes = ((List<GroupeCompteRecap>) request.getAttribute("g[]"));
 %>
 
 
+<form action="/compte/save" method="post">
 <div class="d-flex justify-content-center">
     <div class="card w-50">
         <div class="card-header">
@@ -15,6 +22,8 @@
         </div>
 
         <div class="card-body">
+            <input type="hidden" name="id" value="<%=code != null ? code.getId() : ""%>">
+
             <div class="mb-3">
                 <label>Numero de Compte</label>
                 <input
@@ -22,7 +31,7 @@
                         name="code"
                         minlength="3"
                         value="<%=code != null ? code.getCode() : ""%>"
-                        placeholder="241"
+                        placeholder="2411"
                         class="form-control"
                 >
             </div>
@@ -41,14 +50,55 @@
 
             <div class="mb-3">
                 <label>Categorie</label>
-                <select name="categorieCompte" id="">
+                <select name="categorieCompte" id="" class="form-select">
                     <%
-                        for(CategorieCompte categorie: categories) {
+                        for(TypeCompte t: typeComptes) {
                     %>
-                    <option value="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
+                    <optgroup label="<%=t.getLibelle()%>">
+                        <%
+                            for (CategorieCompte categorie: t.getCategorieComptes()) {
+                        %>
+
+                            <option value="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
+                        <%
+                            }
+                        %>
+
+
+                    </optgroup>
+<%--                    <option value="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>--%>
                     <%
                         }
                     %>
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+                <label>Groupement Rapport: </label>
+                <select name="groupeCompteRecap" class="form-select">
+                    <%
+                        for(TypeCompte t: typeComptes) {
+                    %>
+                    <optgroup label="<%=t.getLibelle()%>">
+                        <%
+                            for(GroupeCompteRecap g: t.getGroupeCompteRecaps()) {
+                        %>
+                        <option value="<%=g.getId()%>" <%=code != null && code.getGroupeCompteRecap() != null && Objects.equals(code.getGroupeCompteRecap().getId(), g.getId())? "selected" : ""%>><%=g.getLibelle()%></option>
+
+                        <%
+                            }
+                        %>
+
+
+                    </optgroup>
+
+
+                    <%
+                        }
+                    %>
+
+
                 </select>
 
             </div>
@@ -74,3 +124,4 @@
 
     </div>
 </div>
+</form>

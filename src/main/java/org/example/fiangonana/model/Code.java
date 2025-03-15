@@ -36,4 +36,31 @@ public class Code {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categorie")
     private CategorieCompte categorieCompte;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_groupe")
+    private GroupeCompteRecap groupeCompteRecap;
+
+    public void controller() throws ExceptionList {
+        ExceptionList e = new ExceptionList();
+        if(code.length() < 3) {
+            e.addMessage("Code doit contenir au moins 3 caractères");
+        }
+        if(libelle.length() < 4) {
+            e.addMessage("Libelle doit contenir au moins 4 caractères");
+        }
+        if(categorieCompte == null) {
+            e.addMessage("Categorie de compte ne doit pas être vide");
+        }
+
+        e.thowWhenNotEmpty();
+    }
+
+    public String getCategorieLibelle() {
+        return this.getCategorieCompte() != null ? this.getCategorieCompte().getLibelle() : "";
+    }
+
+    public String  getTypeCompteLibelle() {
+        return this.getCategorieCompte() != null && this.getCategorieCompte().getTypeCompte() != null ? this.getCategorieCompte().getTypeCompteLibelle() : "";
+    }
 }
