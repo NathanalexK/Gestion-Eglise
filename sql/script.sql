@@ -101,3 +101,18 @@ SELECT
 FROM rapport r
 JOIN groupe_compte_recaps g ON r.id = g.id
 -- JOIN groupe_compte_recaps O
+
+
+
+with rapport as (
+    SELECT
+        code,
+        sum(entree - sortie)
+    FROM mvt_caisse
+    group by code
+)
+SELECT
+      *
+FROM rapport
+JOIN codes ON rapport.code = codes.code
+;

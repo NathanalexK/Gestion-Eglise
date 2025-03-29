@@ -52,14 +52,10 @@ public class TresorerieController extends BaseController {
 
     @PostMapping("/saisie-ligne/confirmer")
     public ModelAndView afficherConfirmation(@ModelAttribute MvtCaisse mvtCaisse) throws ExceptionList {
-        try {
-            mvtCaisse.controller();
-            ModelAndView modelAndView = this.getPage("tresorerie/confirmation-saisie.jsp");
-            modelAndView.addObject("mvtCaisse[]", List.of(mvtCaisse));
-            return modelAndView;
-        } catch (Exception e) {
-            throw new ExceptionList(e.getMessage());
-        }
+        mvtCaisseService.controller(mvtCaisse);
+        ModelAndView modelAndView = this.getPage("tresorerie/confirmation-saisie.jsp");
+        modelAndView.addObject("mvtCaisse[]", List.of(mvtCaisse));
+        return modelAndView;
     }
 
     @GetMapping("/saisie-ensemble")
@@ -143,6 +139,8 @@ public class TresorerieController extends BaseController {
         return redirect(WebUtils.getUrlPrecedente(request));
     }
 
+//    @GetMapping("")
+
     @GetMapping("/recap/details")
     public ModelAndView voirDetailsRecap(
             @RequestParam("idGroupe") Integer idGroupe,
@@ -159,9 +157,4 @@ public class TresorerieController extends BaseController {
         modelAndView.addObject("affichage", mvtCaisseService.getDetailsRecapTresorie(recap));
         return modelAndView;
     }
-
-//    @GetMapping("/pdf/date")
-//    public
-
-
 }

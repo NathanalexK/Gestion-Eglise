@@ -5,14 +5,13 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import org.example.fiangonana.dto.tresorerie.*;
-import org.example.fiangonana.exception.NoUserLoggedException;
-import org.example.fiangonana.model.Budget;
-import org.example.fiangonana.model.Historique;
+import org.example.fiangonana.exception.ExceptionList;
 import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.model.Utilisateur;
 import org.example.fiangonana.repository.HistoriqueRepository;
 import org.example.fiangonana.repository.MvtCaisseRepository;
 import org.example.fiangonana.util.DateUtils;
+import org.example.fiangonana.util.NombreUtils;
 import org.example.fiangonana.util.PageNavigation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MvtCaisseService {
@@ -49,6 +45,29 @@ public class MvtCaisseService {
 //    public List<MvtCaisse> filtrerEtAjouterDate(List<MvtCaisse> mvtCaisses, LocalDate date) {
 //
 //    }
+
+    public void controller(MvtCaisse mvtCaisse) throws ExceptionList {
+        ExceptionList e = new ExceptionList();
+        if(mvtCaisse.getCompte() == null) {
+            e.addMessage("Compte ne doit pas être vide");
+        }
+
+        if(mvtCaisse.getLibelle().length() < 3) {
+            e.addMessage("Le libelle doit contenir au moins 2 caractères");
+        }
+
+        if(mvtCaisse.getEntree() < 0 || mvtCaisse.getSortie() < 0) {
+            e.addMessage("Le montant ne doit pas être négatif");
+        }
+
+        if(NombreUtils.comparerDouble(mvtCaisse.getEntree(), 0) && NombreUtils.comparerDouble(mvtCaisse.getSortie(), 0)){
+            e.addMessage("Montant invalide: entrée et sortie ne doit pas être 0.00 en même temps");
+        }
+
+        e.throwWhenNotEmpty();
+    }
+
+
 
     @Transactional
     public List<MvtCaisse> enregistrerMvtCaisses(List<MvtCaisse> mvtCaisses, Utilisateur u) throws Exception {
@@ -107,6 +126,19 @@ public class MvtCaisseService {
             dmax = dates[1];
         }
         MvtCaisseRecap recap = new MvtCaisseRecap(mvtCaisseRepository.getRecapCaisse(dmin, dmax));
+        recap.setDateDebut(dmin);
+        recap.setDateFin(dmax);
+        recap.setSoldePrecedent(mvtCaisseRepository.getSoldePrecedent(dmin));
+        return recap;
+    }
+
+    public MvtCaisseRecap getRecapDefaut(LocalDate dmin, LocalDate dmax) {
+        if(dmin == null && dmax == null) {
+            LocalDate[] dates = DateUtils.getIntervalleMois(LocalDate.now());
+            dmin = dates[0];
+            dmax = dates[1];
+        }
+        MvtCaisseRecap recap = new MvtCaisseRecap(mvtCaisseRepository.getRecapCaisseDefaut(dmin, dmax));
         recap.setDateDebut(dmin);
         recap.setDateFin(dmax);
         recap.setSoldePrecedent(mvtCaisseRepository.getSoldePrecedent(dmin));

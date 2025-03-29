@@ -47,7 +47,7 @@ public class GroupeCompteRecap {
         if(this.getIdentification() == null) {
             this.setIdentification("");
         }
-        e.thowWhenNotEmpty();
+        e.throwWhenNotEmpty();
     }
 
     public String getTypeCompteLibelle() {

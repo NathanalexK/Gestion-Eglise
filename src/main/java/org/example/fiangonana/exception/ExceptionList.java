@@ -29,7 +29,7 @@ public class ExceptionList extends Exception {
         return !this.getMessages().isEmpty();
     }
 
-    public void thowWhenNotEmpty() throws ExceptionList
+    public void throwWhenNotEmpty() throws ExceptionList
     {
         if(this.containsMessages()) {
             throw this;

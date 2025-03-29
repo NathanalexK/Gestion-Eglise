@@ -4,7 +4,6 @@ import org.example.fiangonana.dto.budget.ArretBudget;
 import org.example.fiangonana.dto.budget.BudgetRecherche;
 import org.example.fiangonana.exception.ExceptionList;
 import org.example.fiangonana.model.Budget;
-import org.example.fiangonana.model.MvtCaisse;
 import org.example.fiangonana.model.immutable.VBudgetCpl;
 import org.example.fiangonana.repository.BudgetRepository;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class BudgetService {
         if(b.getDateDebut() != null && b.getDateFin() != null && b.getDateDebut().isAfter(b.getDateFin())) {
             e.addMessage("la date Fin doit être après la date debut");
         }
-        e.thowWhenNotEmpty();
+        e.throwWhenNotEmpty();
     }
 
     public Budget arreterBudget(ArretBudget ab) throws ExceptionList {
@@ -55,7 +54,7 @@ public class BudgetService {
         if(ab.getDateArret().isBefore(budget.getDateDebut())) {
             e.addMessage("Le budget doit-être arreté après l'enregistrement");
         }
-        e.thowWhenNotEmpty();
+        e.throwWhenNotEmpty();
         budget.setDateArret(ab.getDateArret());
         return budgetRepository.save(budget);
     }

@@ -46,7 +46,7 @@ public class CategorieCompte
             e.addMessage("Type de compte ne doit pas être vide");
         }
 
-        e.thowWhenNotEmpty();
+        e.throwWhenNotEmpty();
     }
 
 

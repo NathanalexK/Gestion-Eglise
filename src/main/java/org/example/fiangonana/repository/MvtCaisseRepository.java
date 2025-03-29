@@ -102,10 +102,34 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
             r.lib_details as lib_details
         FROM rapport r
         JOIN groupe_compte_recaps g ON r.id = g.id
-
         """, nativeQuery = true
     )
     List<MvtCaisseRecapLigne> getRecapCaisse(LocalDate dmin, LocalDate dmax);
+
+
+    @Query(value = """
+                 with rapport as (
+                     SELECT
+                         code,
+                         sum(entree - sortie) as total
+                     FROM mvt_caisse mvt
+                     WHERE COALESCE(:dmin, mvt.date) <= mvt.date AND COALESCE(:dmax, mvt.date) >= mvt.date
+                     group by code
+                 )
+                 SELECT
+                       codes.id as id,
+                      codes.libelle as identification,
+                         codes.libelle as lib_origine,
+                    rapport.total as total,
+                    '' as lib_details
+                 FROM rapport
+                 JOIN codes ON rapport.code = codes.code
+            """, nativeQuery = true
+    )
+    List<MvtCaisseRecapLigne> getRecapCaisseDefaut(LocalDate dmin, LocalDate dmax);
+
+
+
 
 
     @Query("""

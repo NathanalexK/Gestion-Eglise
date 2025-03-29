@@ -50,7 +50,7 @@
 
         <ul class="nav-list-body">
             <li><a href="${pageContext.request.contextPath}/tresorerie/saisie-ligne">Saisie Operation par ligne</a></li>
-            <li><a href="${pageContext.request.contextPath}/tresorerie/saisie-ensemble">Saisie Operations ensemble</a></li>
+<%--            <li><a href="${pageContext.request.contextPath}/tresorerie/saisie-ensemble">Saisie Operations ensemble</a></li>--%>
             <li><a href="${pageContext.request.contextPath}/tresorerie/liste/date">Lister par date</a></li>
             <li><a href="${pageContext.request.contextPath}/tresorerie/recherche">Recherche</a></li>
             <li><a href="${pageContext.request.contextPath}/tresorerie/recap">Rapport</a></li>

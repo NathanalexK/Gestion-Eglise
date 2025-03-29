@@ -56,7 +56,7 @@ public class ConfirmationSaisieMvtCaisseEnsemble {
         if(this.mvtCaisses != null && !this.mvtCaisses.isEmpty()) {
             this.mvtCaisses = this.getMvtCaisses()
                     .stream()
-                    .filter(mvtCaisse -> mvtCaisse.getCode() != null && !mvtCaisse.getCode().trim().isBlank())
+                    .filter(mvtCaisse -> mvtCaisse.getCompte() != null)
                     .toList();
         }
     }

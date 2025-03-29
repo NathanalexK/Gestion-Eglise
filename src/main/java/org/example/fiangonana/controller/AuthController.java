@@ -40,6 +40,13 @@ public class AuthController {
         return "redirect:/login?error=Identifiant ou mot de passe incorrect";
     }
 
+
+    @GetMapping("/logout")
+    public String seDeconncter() {
+        httpSession.removeAttribute("u");
+        return "redirect:/login";
+    }
+
 }
 
 

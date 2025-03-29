@@ -7,7 +7,6 @@ import org.example.fiangonana.exception.ExceptionList;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -53,7 +52,7 @@ public class Code {
             e.addMessage("Categorie de compte ne doit pas être vide");
         }
 
-        e.thowWhenNotEmpty();
+        e.throwWhenNotEmpty();
     }
 
     public String getCategorieLibelle() {

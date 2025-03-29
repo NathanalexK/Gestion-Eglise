@@ -63,17 +63,17 @@
                 <h5>Ajout des Operations</h5>
             </div>
 
-            <div class="card-body">
-                <table class="table table-bordered">
+            <div class="card-body table-responsive text-nowrap">
+                <table class="table table-bordered ">
                     <thead>
                     <tr>
                         <th>Categorie</th>
                         <%--                        <th>Numero Compte</th>--%>
-                        <th>Libellé</th>
-                        <th>Entrée (Ariary)</th>
-                        <th>Sortie (Ariary)</th>
-                        <th>Budget</th>
-                        <th>Observation</th>
+                        <th style="min-width: 300px">Libellé</th>
+                        <th style="min-width: 200px">Entrée (Ariary)</th>
+                        <th style="min-width: 200px">Sortie (Ariary)</th>
+                        <th style="min-width: 400px">Budget</th>
+                        <th style="min-width: 500px">Observation</th>
                     </tr>
                     </thead>
 
@@ -120,7 +120,7 @@
                     <%--                        <td>--%>
                     <%--                            <input--%>
                     <%--                                    type="text"--%>
-                    <%--                                    class="form-control form-control-sm code-input"--%>
+                    <%--                                    class="form-control code-input"--%>
                     <%--                                    name="mvtCaisses[<%=index%>].code"--%>
                     <%--                                    id="numero-input"--%>
                     <%--                                    maxlength="10"--%>
@@ -130,7 +130,7 @@
                     <%--                        <td>--%>
                     <%--                            <input--%>
                     <%--                                    type="text"--%>
-                    <%--                                    class="form-control form-control-sm libelle-input"--%>
+                    <%--                                    class="form-control libelle-input"--%>
                     <%--                                    name="mvtCaisses[<%=index%>].libelle"--%>
                     <%--                            &lt;%&ndash;                                placeholder="ex: Fiarahabana eveka sy diakra"&ndash;%&gt;--%>
                     <%--                            >--%>
@@ -139,7 +139,7 @@
                     <%--                        <td>--%>
                     <%--                            <input--%>
                     <%--                                    type="number"--%>
-                    <%--                                    class="form-control text-right form-control-sm"--%>
+                    <%--                                    class="form-control text-right"--%>
                     <%--                                    name="mvtCaisses[<%=index%>].entree"--%>
                     <%--                                    value="0.00"--%>
                     <%--                                    step="0.01"--%>
@@ -149,7 +149,7 @@
                     <%--                        <td>--%>
                     <%--                            <input--%>
                     <%--                                    type="number"--%>
-                    <%--                                    class="form-control text-right form-control-sm"--%>
+                    <%--                                    class="form-control text-right"--%>
                     <%--                                    name="mvtCaisses[<%=index%>].sortie"--%>
                     <%--                                    step="0.01"--%>
                     <%--                                    value="0.00"--%>
@@ -159,7 +159,7 @@
                     <%--                        <td>--%>
                     <%--                            <input--%>
                     <%--                                    type="text"--%>
-                    <%--                                    class="form-control form-control-sm"--%>
+                    <%--                                    class="form-control"--%>
                     <%--                                    name="mvtCaisses[<%=index%>].observation"--%>
 
                     <%--                            >--%>
@@ -270,14 +270,14 @@
     }
 
     function initSelect2() {
-        // console.log("as")
-        $($('.categorie-input').select2({
+        console.log("as")
+        $('.categorie-input').select2({
             width: '300px',
-            selectionCssClass: 'custom-selection',
+            // dropdownCssClass: 'custom-selection',
             // minWidth: '500px',
             placeholder: "Select an option",
             allowClear: true
-        })).css('height', '30px!important')
+        })
 
     }
 
@@ -286,7 +286,7 @@
     <tr>
     <td>
         <select
-                class="form-select form-select-sm categorie-input"
+                class="form-select form-select-sm categorie-input" name="mvtCaisses[<%=index%>].compte"
         >
             <option value=""></option>
 
@@ -317,7 +317,7 @@
     <td>
         <input
                 type="text"
-                class="form-control form-control-sm libelleInput"
+                class="form-control libelleInput"
                 name="mvtCaisses[<%=index%>].libelle"
         <%--                                placeholder="ex: Fiarahabana eveka sy diakra"--%>
         >
@@ -326,7 +326,7 @@
     <td>
         <input
                 type="number"
-                class="form-control text-right form-control-sm" style="height: 10px!important"
+                class="form-control text-right"
                 name="mvtCaisses[<%=index%>].entree"
                 value="0.00"
                 step="0.01"
@@ -336,7 +336,7 @@
     <td>
         <input
                 type="number"
-                class="form-control text-right form-control-sm"
+                class="form-control text-right"
                 name="mvtCaisses[<%=index%>].sortie"
                 step="0.01"
                 value="0.00"
@@ -344,7 +344,7 @@
     </td>
 
     <td>
-     <select name="budget" class="form-select form-select-sm" id="">
+     <select name="budget" class="form-select" id="">
                         <option value="">Ne pas utiliser de budget</option>
 
                         <%
@@ -363,7 +363,7 @@
     <td>
         <input
                 type="text"
-                class="form-control form-control-sm"
+                class="form-control"
                 name="mvtCaisses[<%=index%>].observation"
 
         >

@@ -12,6 +12,7 @@ html, body {
 }
 
 .text-right {
+    padding-right: 0.5rem !important;
     text-align: right;
 }
 

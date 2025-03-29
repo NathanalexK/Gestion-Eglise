@@ -165,7 +165,7 @@
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/dashboards-analytics.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor/js/select2.min.js"></script>
-
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>--%>
 
 
 <%

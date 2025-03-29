@@ -180,9 +180,9 @@
                     </td>
                     <td><%=mvtCaisse.getLibelle()%>
                     </td>
-                    <td class="text-right"><%=mvtCaisse.getEntree()%>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(mvtCaisse.getEntree())%>
                     </td>
-                    <td class="text-right"><%=mvtCaisse.getSortie()%>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(mvtCaisse.getSortie())%>
                     </td>
                     <td><%=mvtCaisse.getObservation()%>
                     </td>
