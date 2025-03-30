@@ -103,6 +103,12 @@
             <artifactId>xmlbeans</artifactId>
             <version>5.1.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.nx</groupId>
+            <artifactId>engine</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
