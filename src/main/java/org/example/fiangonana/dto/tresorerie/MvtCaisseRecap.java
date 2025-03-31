@@ -44,7 +44,7 @@ public class MvtCaisseRecap {
                 entrees += ligne.getTotal();
                 recapEntrees.add(ligne);
 
-            } else {
+            } else if(ligne.getType() == Constante.mouvement.SORTIE) {
                 sorties += ligne.getTotal();
                 recapSortie.add(ligne);
             }

@@ -6,6 +6,18 @@
 <%
     Budget budget = ((Budget) request.getAttribute("budget"));
 %>
+
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet d'arrêter un budget<br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mamarana ny tetibola
+    </div>
+</div>
+
 <form method="post">
 
 <div class="d-flex justify-content-center">

@@ -68,6 +68,7 @@
                         <i class="bx bx-sidebar toolbar-icon" onclick="toggleSidebar()"></i>
                         <i class="bx bx-chevron-left toolbar-icon" onclick="history.back()"></i>
                         <i class="bx bx-chevron-right toolbar-icon" onclick="history.forward()"></i>
+                        <i class="bx bx-download toolbar-icon" onclick="backup()"></i>
 
                     </div>
 <%--                    <div class="btn-simple" onclick="history.back()">--%>
@@ -207,6 +208,30 @@
         const isHide = layoutMenu.css('display') === 'none';
         layoutMenu.css('display', isHide ? 'block' : 'none');
         $('#nav-logo').css('display', isHide ? 'none' : 'block');
+    }
+
+    function backup() {
+        $.ajax({
+            url: "${environment.apiUrl}/api/backup/download", // Remplacez par l'URL de votre API
+            method: "GET",
+            xhrFields: {
+                responseType: 'blob' // Permet de traiter la réponse comme un fichier binaire
+            },
+            success: function(data, status, xhr) {
+                // let filename = xhr.getResponseHeader("Content-Disposition").split("filename=")[1].replace(/"/g, '');
+                // let blob = new Blob([data], { type: "application/octet-stream" });
+
+                let link = document.createElement("a");
+                link.href = window.URL.createObjectURL(data);
+                link.download = "backup.dmp";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+            error: function(xhr, status, error) {
+                console.error("Erreur lors du téléchargement :", error);
+            }
+        });
     }
 
 </script>

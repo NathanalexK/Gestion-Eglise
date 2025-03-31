@@ -13,6 +13,17 @@
 //    List<GroupeCompteRecap> groupes = ((List<GroupeCompteRecap>) request.getAttribute("g[]"));
 %>
 
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de saisir un nouveau compte<br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mamorona kaonty vaovao
+    </div>
+</div>
+
 
 <form action="/compte/save" method="post">
 <div class="d-flex justify-content-center">

@@ -4,6 +4,7 @@ public class Constante {
     public class mouvement {
         public static final int ENTREE = 0;
         public static final int SORTIE = 1;
+        public static final int AUTRE = 2;
     }
 
     public class transaction {

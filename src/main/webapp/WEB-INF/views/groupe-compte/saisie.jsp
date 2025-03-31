@@ -9,6 +9,16 @@
     List<TypeCompte> types = ((List<TypeCompte>) request.getAttribute("type[]"));
 %>
 
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de saisir un groupement de compte pour le rapport<br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mamorona sokajy ho an'ny tatitra
+    </div>
+</div>
 
 <form action="${pageContext.request.contextPath}/groupe-compte/save" method="post">
 
@@ -29,6 +39,7 @@
                         class="form-control"
                         name="libelle"
                         value="<%=g != null ? g.getLibelle() : ""%>"
+                        placeholder="ex: Karama"
                 >
             </div>
 

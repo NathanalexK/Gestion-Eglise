@@ -12,6 +12,18 @@
     List<VBudgetCpl> budgets = recherche.getBudgets();
 %>
 
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de lister les budget<br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mahita ny tetibola rehetra
+    </div>
+</div>
+
+
 <form method="get">
     <div class="d-flex justify-content-center mb-5">
         <div class="card w-90">

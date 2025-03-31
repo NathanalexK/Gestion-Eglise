@@ -11,6 +11,17 @@
     List<MvtCaisse> mvtCaisses = ((List<MvtCaisse>) request.getAttribute("mc[]"));
 %>
 
+<div class="alert alert-info d-flex align-items-center gap-2">
+    <div>
+        <img src="/assets/icons/info.png" width="40" alt="">
+    </div>
+
+    <div>
+        <strong> FR: </strong> Cette page permet de voir les détails d'un budget<br>
+        <strong> MG: </strong> Ito pejy ito dia ahafahana mijery ny mombamomba ny tetibola
+    </div>
+</div>
+
 <div class="d-flex justify-content-center mb-5">
     <div class="card w-50">
         <div class="card-header">

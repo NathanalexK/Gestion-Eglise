@@ -173,6 +173,7 @@ li.title {
     border: solid 1px #9b9b9b;
     background: linear-gradient(#ffffff, #dadada);
     cursor: pointer;
+    transition: 5s !important;
 
     &:hover {
         background: linear-gradient(#d5d5d5, #f1f1f1);
