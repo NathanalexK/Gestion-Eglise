@@ -4,6 +4,7 @@
 <%@ page import="org.example.fiangonana.model.TypeCompte" %>
 <%@ page import="org.example.fiangonana.model.CategorieCompte" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="org.example.fiangonana.util.TextUtils" %>
 <%@page pageEncoding="UTF-8" %>
 
 <%
@@ -109,10 +110,11 @@
             <table class="table table-bordered table-altered" id="datatable">
                 <thead>
                 <tr>
-                    <th onclick="sortTable('datatable', 0)">Numero de Compte</th>
+                    <th onclick="sortTable('datatable', 0)">Compte</th>
                     <th onclick="sortTable('datatable', 1)">Libellé</th>
                     <th onclick="sortTable('datatable', 2)">Categorie de Compte</th>
                     <th onclick="sortTable('datatable', 3)">Type de Compte</th>
+                    <th onclick="sortTable('datatable', 4)">Groupe</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -125,9 +127,11 @@
                         <td><%=code.getCode()%></td>
                         <td><%=code.getLibelle()%></td>
                         <td><%=code.getCategorieLibelle()%></td>
-                        <td><%=code.getTypeCompteLibelle()%></td>
-                        <td>
+                        <td><%=TextUtils.retrecirTexte(code.getTypeCompteLibelle(), 25)%></td>
+                        <td><%=TextUtils.retrecirTexte(code.getGroupeCompteLibelle(), 25)%></td>
+                        <td class="d-flex gap-2">
                             <a href="${pageContext.request.contextPath}/compte/saisie?id=<%=code.getId()%>" class="action-icon"><i class="bx bx-pencil"></i></a>
+                            <a href="${pageContext.request.contextPath}/tresorerie/recherche?numeroCompte=<%=code.getCode()%>" class="action-icon"><i class="bx bx-search"></i></a>
                         </td>
                     </tr>
                 <%

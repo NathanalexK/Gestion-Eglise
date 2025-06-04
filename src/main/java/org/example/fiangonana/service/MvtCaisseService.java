@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.example.fiangonana.dto.tresorerie.*;
 import org.example.fiangonana.exception.ExceptionList;
 import org.example.fiangonana.model.MvtCaisse;
@@ -13,15 +14,23 @@ import org.example.fiangonana.repository.MvtCaisseRepository;
 import org.example.fiangonana.util.DateUtils;
 import org.example.fiangonana.util.NombreUtils;
 import org.example.fiangonana.util.PageNavigation;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
+@Slf4j
 @Service
 public class MvtCaisseService {
 
@@ -108,8 +117,10 @@ public class MvtCaisseService {
         mvtCaisseRepository.delete(mvtCaisse);
     }
 
+//    @Cacheable(value = "suggestion", key="motCle")
     public List<String> getLibelles(String motCle) {
-        return jdbcTemplate.queryForList("SELECT distinct(libelle) as lib FROM mvt_caisse WHERE libelle ilike '%"+ motCle + "%' LIMIT 5")
+        log.info("Getting suggestions");
+        return jdbcTemplate.queryForList("SELECT distinct(libelle) as lib FROM mvt_caisse WHERE libelle ilike '%"+ motCle + "%'")
                 .stream()
                 .map((ligne) -> String.valueOf(ligne.get("lib")))
                 .toList();
@@ -150,7 +161,14 @@ public class MvtCaisseService {
     }
 
     public MvtCaisseRechercheAffichage recherche(MvtCaisseRechercheAffichage recherche) {
-        Pageable pageable = PageRequest.of(recherche.getPageNavigation().getNumeroPage(), recherche.getPageNavigation().getTaillePage());
+        Sort sort = null;
+        if(recherche.getOrdreColonne() != null) {
+            sort = Sort.by(recherche.getOrdre() != null && recherche.getOrdre().equalsIgnoreCase("desc") ? Sort.Order.desc(recherche.getOrdreColonne()) : Sort.Order.asc(recherche.getOrdreColonne()));
+        } else {
+            sort = Sort.by(Sort.Order.desc("date"));
+        }
+
+        Pageable pageable = PageRequest.of(recherche.getPageNavigation().getNumeroPage(), recherche.getPageNavigation().getTaillePage(), sort);
         Page<MvtCaisse> elements = mvtCaisseRepository.recherche(
                 recherche.getDateMin(),
                 recherche.getDateMax(),
@@ -224,6 +242,51 @@ public class MvtCaisseService {
         requete.orderBy(cb.asc(table.get("date")));
         recap.setMvtCaisses(em.createQuery(requete).getResultList());
         return recap;
+    }
+
+
+    public BilanTresorerie getBilanMois(int mois, int annee) {
+        BilanTresorerie bilan = new BilanTresorerie();
+        LocalDate date = LocalDate.of(annee, mois, 1);
+        LocalDate[] interDates = DateUtils.getIntervalleMois(date);
+
+        Map<String, Object> map = mvtCaisseRepository.getBilanSimpleEntre2Dates(interDates[0], interDates[1]);
+        bilan.setSoldePrecedent(mvtCaisseRepository.getSoldePrecedent(interDates[0]));
+        bilan.setTotalEntree(map.get("entree") != null ? (Double) map.get("entree") : 0.00);
+        bilan.setTotalSortie(map.get("sortie") != null ?(Double) map.get("sortie") : 0.00);
+        bilan.setTotal(map.get("total") != null ? (Double) map.get("total") : 0.00);
+        bilan.setMois(mois);
+        bilan.setAnnee(annee);
+
+//        LocalDate.
+        return bilan;
+    }
+
+
+    public List<Object[]> rechercheGroupee(MvtCaisseRechercheGroupe rg) {
+        if(rg.getColonneCle() == null || rg.getColonneValeur() == null) {
+            return List.of();
+        }
+
+        String commande = String.format("SELECT %s as cle, %s(%s) as valeur FROM mvt_caisse m JOIN codes c ON c.id = m.id_compte WHERE 1=1 AND m.code not like '2111' ", rg.getColonneCle(), rg.getFonction(), rg.getColonneValeur());
+        if(rg.getValeurCle() != null && !rg.getValeurCle().isBlank()) {
+            commande += " AND LOWER(CAST(" + rg.getColonneCle() + " AS TEXT)) LIKE '%" + rg.getValeurCle().toLowerCase() + "%'";
+        }
+        if(rg.getDateMin() != null) {
+            commande += String.format(" AND date >= '%s'", rg.getDateMin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
+        if(rg.getDateMax() != null) {
+            commande += String.format(" AND date <= '%s'", rg.getDateMax().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
+        log.info("Commande: {}", commande);
+        commande += String.format(" GROUP BY %s", rg.getColonneCle());
+//        commande += " HAVING " + rg.getColonneCle() +";
+        List<Map<String, Object>> resultats = jdbcTemplate.queryForList(commande);
+        return resultats.stream()
+                .map(map -> {
+                    return new Object[]{map.get("cle") instanceof Date d ? DateUtils.getFormatParDefaut(d.toLocalDate()) : map.get("cle"), map.get("valeur") instanceof Long l ? BigDecimal.valueOf(l) : map.get("valeur")};
+                })
+                .toList();
     }
 
 //    public

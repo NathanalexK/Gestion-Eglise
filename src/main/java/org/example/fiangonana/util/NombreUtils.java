@@ -29,4 +29,6 @@ public class NombreUtils {
     public static Double getDouble(BigDecimal b) {
         return b != null ? b.doubleValue() : null;
     }
+
+//    public static Double bigDecimalToDou
 }

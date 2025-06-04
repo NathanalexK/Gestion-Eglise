@@ -1,5 +1,6 @@
 package org.example.fiangonana.repository;
 
+import org.example.fiangonana.dto.tresorerie.BilanTresorerie;
 import org.example.fiangonana.dto.tresorerie.MvtCaisseLigne;
 import org.example.fiangonana.dto.tresorerie.MvtCaisseRecapLigne;
 import org.example.fiangonana.model.Budget;
@@ -13,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, JpaSpecificationExecutor<MvtCaisse> {
 
@@ -25,13 +27,16 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
                 ),
                 transactions_filtrees AS (
                  SELECT
-                     id,
-                     code,
-                     libelle,
-                     date,
-                     entree,
-                     sortie
-                 FROM mvt_caisse
+                     m.id,
+                     m.code,
+                     m.libelle,
+                     m.date,
+                     m.entree,
+                     m.sortie,
+                     b.id as id_budget,
+                     b.libelle as libelle_budget
+                 FROM mvt_caisse m
+                 LEFT JOIN budgets b ON m.id_budget = b.id
                  WHERE COALESCE(:dmin, date) <= date AND COALESCE(:dmax, date) >= date
                 )
                 SELECT
@@ -41,6 +46,8 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
                     t.libelle,
                     t.entree,
                     t.sortie,
+                    t.id_budget,
+                    t.libelle_budget,
                     solde_initial.solde + SUM(t.entree - t.sortie) OVER (ORDER BY t.date, t.id) AS soldes
                 FROM transactions_filtrees t, solde_initial
                 UNION (
@@ -51,6 +58,8 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
                         'solde precedent',
                         case when solde < 0 then 0 else solde end,
                         case when solde < 0 then solde else 0 end,
+                        NULL,
+                        NULL,
                         solde
                     FROM solde_initial
                 )
@@ -150,8 +159,8 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
             "AND (:entreeMax IS NULL OR m.entree <= :entreeMax) " +
             "AND (:sortieMin IS NULL OR m.sortie >= :sortieMin) " +
             "AND (:sortieMax IS NULL OR m.sortie <= :sortieMax) " +
-            "AND (:libelle IS NULL OR LOWER(m.libelle) ILIKE %:libelle%) " +
-            "ORDER BY m.date ASC")
+            "AND (:libelle IS NULL OR LOWER(m.libelle) ILIKE %:libelle%)"
+    )
     Page<MvtCaisse> recherche(
             @Param("dateMin") LocalDate dateMin,
             @Param("dateMax") LocalDate dateMax,
@@ -163,6 +172,31 @@ public interface MvtCaisseRepository extends JpaRepository<MvtCaisse, Integer>, 
             @Param("libelle") String libelle,
             Pageable pageable
     );
+
+
+
+
+    @Query("SELECT SUM(m.entree - m.sortie) FROM MvtCaisse m WHERE m.date < :date")
+    Double getSolde(@Param("date") LocalDate date);
+
+
+    @Query("SELECT SUM(m.entree) AS entree, SUM(m.sortie) AS sortie, SUM(m.entree - m.sortie) AS total FROM MvtCaisse m WHERE m.date >= COALESCE(:dateMin, m.date) AND m.date <= COALESCE(:dateMax, m.date) ")
+    Map<String, Object> getBilanSimpleEntre2Dates(@Param("dateMin") LocalDate dateMin, @Param("dateMax") LocalDate dateMax);
+
+
+
+
+
+//    @Query(
+//        """
+//            SELECT m FROM MvtCaisse m
+//
+//        """
+//    )
+//    BilanTresorerie getBilan(
+//            @Param("dateMin") LocalDate dateMin,
+//            @Param("dateMax") LocalDate dateMax
+//    );
 
 
 //    List<MvtCaisse> rechercher(

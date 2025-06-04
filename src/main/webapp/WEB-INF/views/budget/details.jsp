@@ -143,3 +143,57 @@
     </div>
 
 </div>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card w-90">
+        <div class="card-header">
+            <h5>Exporter</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex" style="gap: 3rem">
+                <div class="d-flex align-items-center">
+                    <input type="radio" class="" value="pdf"  name="filetype" checked>
+                    <img src="/assets/icons/pdf.png" width="64">
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <button onclick="genererPDF(<%=budget.getId()%>)" class="btn btn-primary">Exporter</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    function genererPDF(idBudget) {
+        const data = {
+            id: idBudget
+        }
+        $.ajax({
+            url: environment.apiUrl + '/api/pdf/budget/details',
+            method: 'GET',
+            data: data,
+            xhrFields: {
+                responseType: 'blob' // Important pour récupérer un fichier binaire
+            },
+            success: function (data, status, xhr) {
+                // Crée un lien temporaire pour le téléchargement
+                const blob = new Blob([data], {type: 'application/pdf'});
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'budget.pdf';
+                link.click();
+            },
+            error: function () {
+                alert('Erreur lors du téléchargement du PDF.');
+            }
+        })
+    }
+
+
+</script>

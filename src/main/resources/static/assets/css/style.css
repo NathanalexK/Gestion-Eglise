@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    font-family: Inter, sans-serif !important;
 }
 
 
@@ -14,6 +15,7 @@ html, body {
 .text-right {
     padding-right: 0.5rem !important;
     text-align: right;
+    text-wrap: nowrap;
 }
 
 .autocomplete {
@@ -85,6 +87,7 @@ li {
     gap: 0.5rem;
     font-size: 20px;
     background: linear-gradient(#fdcc71, #ce7d05);
+    /*background: linear-gradient(to bottom, #08a0ec, #0044cc);*/
     /*box-shadow: 0px 2px 5px rgba(61, 61, 61, 0.56);*/
     /*margin-bottom: 0.2rem;*/
     border-bottom: solid 1px #8c5b02;
@@ -120,6 +123,32 @@ li {
     border: solid 1px #818181;
     /*box-shadow: 0 -20px 0 white !important;*/
     border-radius: 0.5rem!important;
+}
+
+
+.card-style-1 {
+    background: linear-gradient(#ffffff, #e3e3e3) !important;
+    border: solid 1px #b9b9b9 !important;
+
+    .card-body {
+        input, textarea, select {
+            border: solid 1px rgba(0, 0, 0, 0.14) !important;
+
+        }
+
+        /*border: solid 1px #b9b9b9 !important;*/
+
+    }
+
+    .card-footer {
+        margin-top: 1rem;
+        border-top: solid 1px #b9b9b9 !important;
+
+         button {
+             box-shadow: 0px -1px 0px rgba(49, 49, 49, 0.44), 0px 2px 0px rgba(255, 255, 255, 0.71);
+
+         }
+    }
 }
 
 .btn-simple {
@@ -182,4 +211,16 @@ li.title {
     /*         0px 1px 0px rgba(117, 117, 117, 0.99), !* Outer shadow *!*/
     /*        inset 0px 1px 0px rgba(59, 59, 59, 0.83); !* Inner shadow *!*/
     /*box-shadow: 0px  1px 3px rgba(0, 0, 0, 0.18);*/
+}
+
+/*.operation-budget:nth-child(odd) {*/
+/*    background: rgb(255, 181, 181) !important;*/
+/*}*/
+
+/*.operation-budget:nth-child(even){*/
+/*    background: rgb(245, 146, 146) !important;*/
+/*}*/
+
+.lien {
+    color: blue;
 }

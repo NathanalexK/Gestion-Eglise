@@ -16,4 +16,8 @@ public class Constante {
     public class compte {
         public static final String COMPTE_SOLDE = "2111";
     }
+
+    public class css {
+        public static final String OPERATION_BUDGET_CLASS = "operation-budget";
+    }
 }

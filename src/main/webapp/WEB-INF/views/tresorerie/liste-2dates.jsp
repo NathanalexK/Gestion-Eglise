@@ -5,6 +5,7 @@
 <%@ page import="org.example.fiangonana.util.DateUtils" %>
 <%@ page import="org.example.fiangonana.dto.tresorerie.MvtCaisseAffichage" %>
 <%@ page import="org.example.fiangonana.util.NombreUtils" %>
+<%@ page import="org.example.fiangonana.util.MoisIntervalleDate" %>
 <%@page pageEncoding="UTF-8" %>
 <%
     List<MvtCaisseLigne> mvtCaisses = (List<MvtCaisseLigne>) request.getAttribute("mvtCaisse[]");
@@ -12,6 +13,7 @@
     LocalDate dmax = ((LocalDate) request.getAttribute("dmax"));
     mvtCaisses.forEach(System.out::println);
     MvtCaisseAffichage affichage = ((MvtCaisseAffichage) request.getAttribute("affichage"));
+    List<MoisIntervalleDate> dates = DateUtils.get12DerniersMois(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
 %>
 
 <div class="alert alert-info d-flex align-items-center gap-2">
@@ -27,9 +29,9 @@
 
 <form>
     <div class="d-flex justify-content-center">
-        <div class="card w-90">
+        <div class="card w-90 card-style-1" >
             <div class="card-header">
-                <h5>Filtre Recherche</h5>
+                Filtre Recherche
             </div>
 
             <div class="card-body">
@@ -48,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="card-footer p-3">
+            <div class="card-footer">
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-warning">Filtrer</button>
                 </div>
@@ -62,8 +64,36 @@
 
 <div class="d-flex justify-content-center mt-5">
     <div class="card w-90">
+        <div class="card-header">
+            Raccourcis
+        </div>
+
+        <div class="card-body">
+            <ul class="d-flex gap-4" style="list-style: none">
+                <%
+                    for (MoisIntervalleDate moisIntervalleDate : dates) {
+                %>
+                <li>
+                    <a href="/tresorerie/liste/date?dmin=<%=moisIntervalleDate.getDebutMois()%>&dmax=<%=moisIntervalleDate.getFinMois()%>"><%=moisIntervalleDate.getNom()%> <%=moisIntervalleDate.getAnnee()%>
+                    </a>
+                </li>
+
+                <%
+                    }
+                %>
+
+
+            </ul>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card w-90">
         <div class="card-header green-gradient">
-            <h5>Tableau Recapitulatif</h5>
+            <h5>Tableau Recapitulatif: <%=DateUtils.affichageIntervalleDateFrancais(dmin, dmax)%></h5>
         </div>
 
         <div class="card-body">
@@ -85,7 +115,8 @@
                 </tr>
 
                 <tr>
-                    <td>Soldes précédent <%=" le " +( affichage.getDateMin() != null ? DateUtils.getFormatParDefaut(affichage.getDateMin()): "")%></td>
+                    <td>Soldes précédent <%=" le " + (affichage.getDateMin() != null ? DateUtils.getFormatParDefaut(affichage.getDateMin()) : "")%>
+                    </td>
                     <td class="text-right"><%=NombreUtils.affichageMonetaire(affichage.getSoldePrecedent())%> Ariary</td>
                 </tr>
 
@@ -102,11 +133,10 @@
 </div>
 
 
-
 <div class="d-flex justify-content-center mt-5">
     <div class="card w-90">
         <div class="card-header">
-            <h5>Liste des mouvements caisses</h5>
+            <h5>Liste des mouvements caisses:  <%=DateUtils.affichageIntervalleDateFrancais(dmin, dmax)%></h5>
         </div>
 
         <div class="card-body">
@@ -120,15 +150,16 @@
                     <th onclick="sortTable('tri-table',3)">Entree</th>
                     <th onclick="sortTable('tri-table',4)">Sortie</th>
                     <th onclick="sortTable('tri-table',5)">Soldes</th>
+                    <th>Budget</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <%
-                    for (MvtCaisseLigne mvtCaisse : mvtCaisses) {
+                    for (MvtCaisseLigne mvtCaisse : affichage.getMvtCaisses()) {
                 %>
-                <tr>
+                <tr class="<%=mvtCaisse.getClasseCouleur()%>">
                     <%--                    <td><%=mvtCaisse.getId()%></td>--%>
                     <td><%=DateUtils.getFormatParDefaut(mvtCaisse.getDate())%>
                     </td>
@@ -136,23 +167,34 @@
                     </td>
                     <td><%=mvtCaisse.getLibelle()%>
                     </td>
-                    <td class="text-right"><%=mvtCaisse.getEntree()%>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(mvtCaisse.getEntree())%>
                     </td>
-                    <td class="text-right"><%=mvtCaisse.getSortie()%>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(mvtCaisse.getSortie())%>
                     </td>
-                    <td class="text-right"><%=mvtCaisse.getSoldes()%>
+                    <td class="text-right"><%=NombreUtils.affichageMonetaire(mvtCaisse.getSoldes())%>
+                    </td>
+                    <td>
+                        <%
+                            if (mvtCaisse.getIdBudget() != null) {
+                        %>
+                        <a class="lien" href="${pageContext.request.contextPath}/budget/details?id=<%=mvtCaisse.getIdBudget()%>">
+                            <%=mvtCaisse.getLibelleBudget() != null ? mvtCaisse.getLibelleBudget() : ""%>
+                        </a>
+                        <%
+                            }
+                        %>
                     </td>
                     <td class="d-flex gap-3">
                         <%
-                            if(mvtCaisse.getId() != null) {
+                            if (mvtCaisse.getId() != null) {
                         %>
-                            <a href="${pageContext.request.contextPath}/tresorerie/saisie-ligne?id=<%=mvtCaisse.getId()%>" class="action-icon">
-                                <i class="bx bx-pencil"></i>
-                            </a>
+                        <a href="${pageContext.request.contextPath}/tresorerie/saisie-ligne?id=<%=mvtCaisse.getId()%>" class="action-icon">
+                            <i class="bx bx-pencil"></i>
+                        </a>
 
-                            <a href="${pageContext.request.contextPath}/tresorerie/supprimer?id=<%=mvtCaisse.getId()%>" class="action-icon">
-                                <i class="bx bx-trash"></i>
-                            </a>
+                        <a href="${pageContext.request.contextPath}/tresorerie/supprimer?id=<%=mvtCaisse.getId()%>" class="action-icon">
+                            <i class="bx bx-trash"></i>
+                        </a>
                         <%
                             }
                         %>
@@ -182,17 +224,17 @@
         <div class="card-body">
             <div class="d-flex" style="gap: 3rem">
                 <div class="d-flex align-items-center">
-                    <input type="radio" class="" value="pdf" checked name="filetype">
+                    <input type="radio" class="" value="pdf" name="filetype">
                     <img src="/assets/icons/pdf.png" width="64">
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <input type="radio" value="csv" name="filetype">
+                    <input type="radio" value="csv" name="filetype" checked>
                     <img src="/assets/icons/excel.png" width="64">
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <button onclick="genererPDF(<%=dmin != null ? "'" + dmin + "'": "null"%>, <%=dmax != null ? "'" + dmax + "'": "null"%>)" class="btn btn-primary">Exporter</button>
+                    <button onclick="exporter(<%=dmin != null ? "'" + dmin + "'": "null"%>, <%=dmax != null ? "'" + dmax + "'": "null"%>)" class="btn btn-primary">Exporter</button>
                 </div>
 
             </div>
@@ -203,6 +245,14 @@
 </div>
 
 <script>
+    function exporter(dmin, dmax) {
+        const filetype = $('input[name=filetype]:checked').val();
+        console.log(filetype)
+        if (filetype === "pdf") genererPDF(dmin, dmax);
+        if (filetype === "csv") genererExcel(dmin, dmax);
+    }
+
+
     function genererPDF(dmin, dmax) {
         const data = {
             dateMin: dmin,
@@ -215,18 +265,43 @@
             xhrFields: {
                 responseType: 'blob' // Important pour récupérer un fichier binaire
             },
-            success: function(data, status, xhr) {
+            success: function (data, status, xhr) {
                 // Crée un lien temporaire pour le téléchargement
-                const blob = new Blob([data], { type: 'application/pdf' });
+                const blob = new Blob([data], {type: 'application/pdf'});
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = 'toe-bola.pdf';
                 link.click();
             },
-            error: function() {
+            error: function () {
                 alert('Erreur lors du téléchargement du PDF.');
             }
         });
     }
+
+    function genererExcel(dmin, dmax) {
+        const data = {
+            dateMin: dmin,
+            dateMax: dmax
+        }
+        $.ajax({
+            url: environment.apiUrl + '/api/csv/mvt-caisse',
+            method: 'GET',
+            data: data,
+            xhrFields: {
+                responseType: 'blob' // Important pour récupérer un fichier binaire
+            },
+            success: function (data, status, xhr) {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(data);
+                link.download = 'tatitra.xlsx';
+                link.click();
+            },
+            error: function () {
+                alert('Erreur lors du téléchargement du Excel.');
+            }
+        });
+    }
+
 
 </script>

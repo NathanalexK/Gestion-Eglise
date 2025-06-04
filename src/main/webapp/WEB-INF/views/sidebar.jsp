@@ -1,7 +1,9 @@
+<%@page pageEncoding="UTF-8" %>
+
 <%@ page import="org.example.fiangonana.webComponent.Sidebar" %>
 <%@ page import="org.example.fiangonana.webComponent.Menu" %>
 
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar" data-bg-class="bg-menu-theme" style="visibility: visible;">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"  data-bg-class="bg-menu-theme" style="visibility: visible; position: sticky; top: 0; height: 100vh">
     <div class="nav-header d-flex gap-1 border-bottom align-items-center" onclick="window.location.href = '/'">
         <img src="/assets/img/logo.png" alt="" class="depth">
 
@@ -25,6 +27,7 @@
             <li class="title">Compte Rapport</li>
             <li><a href="${pageContext.request.contextPath}/groupe-compte/saisie">Saisie groupe compte recap</a></li>
             <li><a href="${pageContext.request.contextPath}/groupe-compte/liste">Lister groupes comptes recap</a></li>
+
         </ul>
     </div>
 
@@ -53,7 +56,10 @@
 <%--            <li><a href="${pageContext.request.contextPath}/tresorerie/saisie-ensemble">Saisie Operations ensemble</a></li>--%>
             <li><a href="${pageContext.request.contextPath}/tresorerie/liste/date">Lister par date</a></li>
             <li><a href="${pageContext.request.contextPath}/tresorerie/recherche">Recherche</a></li>
+            <li><a href="${pageContext.request.contextPath}/tresorerie/recherche-groupe">Recherche Groupée</a></li>
             <li><a href="${pageContext.request.contextPath}/tresorerie/recap">Rapport</a></li>
+            <li><a href="${pageContext.request.contextPath}/tresorerie/bilan">Bilan</a></li>
+
 
 
         </ul>
@@ -61,10 +67,27 @@
 
     <div class="nav-list">
         <div class="nav-list-header">
-<%--            <i></i>--%>
-            <span style="height: 30px"></span>
+            <i class="bx bx-cog"></i>
+            <span>Autres</span>
         </div>
+
+        <ul class="nav-list-body">
+            <li><a href="${pageContext.request.contextPath}/configuration/form">Configuration </a></li>
+<%--            <li><a href="${pageContext.request.contextPath}/menu">Menu </a></li>--%>
+
+
+
+
+
+        </ul>
     </div>
+
+<%--    <div class="nav-list">--%>
+<%--        <div class="nav-list-header">--%>
+<%--&lt;%&ndash;            <i></i>&ndash;%&gt;--%>
+<%--            <span style="height: 30px"></span>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
 
 </aside>

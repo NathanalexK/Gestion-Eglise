@@ -18,12 +18,15 @@ public class MvtCaisseLigne {
     private Double entree;
     private Double sortie;
     private Double soldes;
+    private Integer idBudget;
+    private String libelleBudget;
+//    private BudgetSimple budgetSimple;
 
 
     public MvtCaisseLigne() {
     }
 
-    public MvtCaisseLigne(Integer id, String code, Date date, String libelle, BigDecimal entree, BigDecimal sortie, BigDecimal soldes) {
+    public MvtCaisseLigne(Integer id, String code, Date date, String libelle, BigDecimal entree, BigDecimal sortie, Integer idBudget, String nomBudget, BigDecimal soldes) {
         this.id = id;
         this.code = code;
         this.date = date != null? date.toLocalDate(): null;
@@ -31,6 +34,19 @@ public class MvtCaisseLigne {
         this.entree = entree != null ? entree.doubleValue() : 0;
         this.sortie = sortie != null ? sortie.doubleValue() : 0;
         this.soldes = soldes != null ? soldes.doubleValue() : 0;
+        this.idBudget = idBudget;
+        this.libelleBudget = nomBudget;
+//        if(idBudget != null && nomBudget != null) {
+//            BudgetSimple bs = new Bud
+//        }
+    }
+
+
+    public String getClasseCouleur() {
+        if(idBudget != null) {
+            return Constante.css.OPERATION_BUDGET_CLASS;
+        }
+        return  "";
     }
 
     @Override

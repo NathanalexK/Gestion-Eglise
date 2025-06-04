@@ -40,6 +40,10 @@
                 <img src="/assets/img/logo.png" class="rounded-circle depth" alt="" style="object-fit: cover">
             </div>
 
+            <div class="d-flex justify-content-center mb-1 " style="font-size: 18px; font-weight: bold">
+                EKAR Saint Michel Itaosy
+            </div>
+
             <div class="d-flex justify-content-center mb-3 " style="font-size: 18px">
                 Se Connecter
             </div>

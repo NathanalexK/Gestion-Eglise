@@ -100,3 +100,14 @@ ALTER TABLE budgets ADD COLUMN description TEXT;
 
 ALTER TABLE mvt_caisse ADD COLUMN "date_creation" timestamp DEFAULT now();
 
+DROP TABLE IF EXISTS "configuration";
+CREATE TABLE "configuration" (
+    "date_min_defaut" DATE,
+    "date_max_defaut" DATE
+);
+
+
+ALTER TABLE "configuration" ADD COLUMN "id" SERIAL;
+ALTER TABLE "configuration" ADD PRIMARY KEY(id);
+ALTER TABLE "configuration" ADD COLUMN couleur_budget varchar(20);
+

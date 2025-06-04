@@ -24,4 +24,10 @@ public class HomeController extends BaseController{
         authService.utilisateurObligatoire();
         return this.getPage("home.jsp");
     }
+
+    @GetMapping("/menu")
+    public ModelAndView afficherPageMenu() {
+        ModelAndView modelAndView = this.getPage("menu.jsp");
+        return modelAndView;
+    }
 }

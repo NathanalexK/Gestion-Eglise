@@ -2,7 +2,7 @@
 <%@page pageEncoding="UTF-8" %>
 
 <%
-    if(session.getAttribute("u") == null) {
+    if (session.getAttribute("u") == null) {
         response.sendRedirect("/login");
         return;
     }
@@ -22,20 +22,21 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/custom-style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/fonts/boxicons.css"/>
 
-    <link rel="icon" href="${pageContext.request.contextPath}/assets/img/logo.png">
+    <%--    <link rel="icon" href="${pageContext.request.contextPath}/assets/img/logo.png">--%>
 
 
-    <!-- Core CSS -->
+    <%--    <!-- Core CSS -->--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/core.css" class="template-customizer-core-css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/theme-default.css" class="template-customizer-theme-css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/demo.css"/>
+    <%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/demo.css"/>--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/css/select2.min.css"/>
-
 
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendor/libs/apex-charts/apex-charts.css"/>
+    <script src="${pageContext.request.contextPath}/assets/vendor/libs/chartjs/chartjs.js"></script>
+
     <script src="${pageContext.request.contextPath}/assets/vendor/js/helpers.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/config.js"></script>
 
@@ -44,112 +45,112 @@
     <script src="${pageContext.request.contextPath}/assets/vendor/js/script.js"></script>
 
     <script src="${pageContext.request.contextPath}/assets/js/sweetalert2.js"></script>
-<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.1/gsap.min.js"></script>--%>
+    <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.1/gsap.min.js"></script>--%>
 
 
-
+    <jsp:include page="style.jsp"/>
 
 
 </head>
 <body>
 
 <%--<div class="wrapper"> --%>
-    <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
-            <jsp:include page="sidebar.jsp"/>
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <jsp:include page="sidebar.jsp"/>
 
-            <div class="layout-page">
-                <nav class="layout-navbar px-4 navbar align-items-center" id="layout-navbar">
-<%--                    <div id="nav-logo" class="nav-header d-flex gap-1 border-bottom align-items-center" style="margin-right: 2rem; display: none" onclick="window.location.href = '/'">--%>
-                        <img id="nav-logo" src="/assets/img/logo.png" style="margin-right: 2rem; display: none"  alt="" height="54px">
-<%--                    </div>--%>
+        <div class="layout-page">
+            <nav class="layout-navbar px-4 navbar align-items-center" id="layout-navbar" style="position: sticky; top: 0; z-index: 1000; min-height: 64px">
+                <%--                    <div id="nav-logo" class="nav-header d-flex gap-1 border-bottom align-items-center" style="margin-right: 2rem; display: none" onclick="window.location.href = '/'">--%>
+                <img id="nav-logo" src="/assets/img/logo.png" style="margin-right: 2rem; display: none" alt="" height="54px">
+                <%--                    </div>--%>
 
-                    <div class="d-flex left-toolbar gap-3">
-                        <i class="bx bx-sidebar toolbar-icon" onclick="toggleSidebar()"></i>
-                        <i class="bx bx-chevron-left toolbar-icon" onclick="history.back()"></i>
-                        <i class="bx bx-chevron-right toolbar-icon" onclick="history.forward()"></i>
-                        <i class="bx bx-download toolbar-icon" onclick="backup()"></i>
+                <div class="d-flex left-toolbar gap-3">
+                    <i class="bx bx-sidebar toolbar-icon" onclick="toggleSidebar()"></i>
+                    <i class="bx bxs-grid toolbar-icon" onclick="window.location.href.endsWith('/menu') ? history.back() : window.location.href='${pageContext.request.contextPath}/menu'"></i>
+                    <i class="bx bx-chevron-left toolbar-icon" onclick="history.back()"></i>
+                    <i class="bx bx-chevron-right toolbar-icon" onclick="history.forward()"></i>
+                    <i class="bx bx-download toolbar-icon" onclick="backup()"></i>
 
-                    </div>
-<%--                    <div class="btn-simple" onclick="history.back()">--%>
-<%--                        <i class="bx bx-arrow-back fw-bold" style="color: white!important;"></i>--%>
-<%--                        <span class="fw-bold">--%>
-<%--                                                    Retour--%>
+                </div>
+                <%--                    <div class="btn-simple" onclick="history.back()">--%>
+                <%--                        <i class="bx bx-arrow-back fw-bold" style="color: white!important;"></i>--%>
+                <%--                        <span class="fw-bold">--%>
+                <%--                                                    Retour--%>
 
-<%--                        </span>--%>
+                <%--                        </span>--%>
 
-<%--                    </div>--%>
-<%--                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">--%>
-<%--                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">--%>
-<%--                            <i class="bx bx-menu bx-sm"></i>--%>
-<%--                        </a>--%>
-<%--                    </div>--%>
+                <%--                    </div>--%>
+                <%--                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">--%>
+                <%--                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">--%>
+                <%--                            <i class="bx bx-menu bx-sm"></i>--%>
+                <%--                        </a>--%>
+                <%--                    </div>--%>
 
-<%--                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">--%>
+                <%--                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">--%>
 
-                        <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Place this tag where you want the button to render. -->
+                <ul class="navbar-nav flex-row align-items-center ms-auto">
+                    <!-- Place this tag where you want the button to render. -->
 
-                            <li class="nav-item lh-1 me-3">
-<%--                                <%=u.getRole().name()%>--%>
-                            </li>
+                    <li class="nav-item lh-1 me-3">
+                        <%--                                <%=u.getRole().name()%>--%>
+                    </li>
 
-                            <!-- User -->
-                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow btn-simple px-3 fw-bold" href="javascript:void(0);" data-bs-toggle="dropdown">
-                                    ADMIN
-<%--                                    <div class="avatar avatar-online">--%>
-<%--                                        <img src="/assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">--%>
-<%--                                    </div>--%>
+                    <!-- User -->
+                    <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                        <a class="nav-link dropdown-toggle hide-arrow btn-simple px-3 fw-bold" href="javascript:void(0);" data-bs-toggle="dropdown">
+                            ADMIN
+                            <%--                                    <div class="avatar avatar-online">--%>
+                            <%--                                        <img src="/assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">--%>
+                            <%--                                    </div>--%>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 me-3">
+                                            <%--                                                    <div class="avatar avatar-online">--%>
+                                            <%--                                                        <img src="/assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">--%>
+                                            <%--                                                    </div>--%>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <span class="fw-semibold d-block">Admin</span>
+                                            <%--                                                    <small class="text-muted">Admin</small>--%>
+                                        </div>
+                                    </div>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
-<%--                                                    <div class="avatar avatar-online">--%>
-<%--                                                        <img src="/assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">--%>
-<%--                                                    </div>--%>
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">Admin</span>
-<%--                                                    <small class="text-muted">Admin</small>--%>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li>
-
-
-                                    <li>
-                                        <a class="dropdown-item" href="/logout">
-                                            <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Se Deconnecter</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
-                            <!--/ User -->
+                            <li>
+                                <div class="dropdown-divider"></div>
+                            </li>
+
+
+                            <li>
+                                <a class="dropdown-item" href="/logout">
+                                    <i class="bx bx-power-off me-2"></i>
+                                    <span class="align-middle">Se Deconnecter</span>
+                                </a>
+                            </li>
                         </ul>
-<%--                    </div>--%>
-                </nav>
-                <div class=" container-p-y px-4">
-                    <jsp:include page="<%=contentPage%>"/>
-
-                </div>
-
-                <div class="bg-white px-3 py-1 flex-grow-1 mt-2">
-                   Copyright © 2025  Nathanalex | Tous droits reservés.
-
-                </div>
-
-
+                    </li>
+                    <!--/ User -->
+                </ul>
+                <%--                    </div>--%>
+            </nav>
+            <div class=" container-p-y px-4">
+                <jsp:include page="<%=contentPage%>"/>
 
             </div>
+
+            <div class="bg-white px-3 py-1 flex-grow-1 mt-2">
+                Copyright © 2025 Nathanalex | Tous droits reservés.<br>
+                Version: 2025.06.04
+            </div>
+
+
         </div>
     </div>
+</div>
 <%--</div>--%>
 
 </body>
@@ -203,12 +204,39 @@
 %>
 
 <script>
+    function fixSelectSelectedAttribute() {
+        $('select[data-selected]').each(function () {
+            var selectedValue = $(this).data('selected');
+            // var selectedValue = $(this).attr('selected');
+
+            console.log("adsad " + selectedValue)
+            // Remove the invalid 'selected' attribute from <select>
+            $(this).removeAttr('selected');
+
+            // Set the correct option as selected
+            $(this).find('option').each(function () {
+                if ($(this).val() == selectedValue) {
+                    $(this).prop('selected', true);
+                }
+            });
+        });
+    }
+
+    fixSelectSelectedAttribute();
+
+
+    $(document).ready(function () {
+        console.log("ready")
+    })
+
     function toggleSidebar() {
         const layoutMenu = $('#layout-menu');
         const isHide = layoutMenu.css('display') === 'none';
         layoutMenu.css('display', isHide ? 'block' : 'none');
         $('#nav-logo').css('display', isHide ? 'none' : 'block');
     }
+
+    // window.
 
     function backup() {
         $.ajax({
@@ -217,7 +245,7 @@
             xhrFields: {
                 responseType: 'blob' // Permet de traiter la réponse comme un fichier binaire
             },
-            success: function(data, status, xhr) {
+            success: function (data, status, xhr) {
                 // let filename = xhr.getResponseHeader("Content-Disposition").split("filename=")[1].replace(/"/g, '');
                 // let blob = new Blob([data], { type: "application/octet-stream" });
 
@@ -228,10 +256,12 @@
                 link.click();
                 document.body.removeChild(link);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error("Erreur lors du téléchargement :", error);
             }
         });
+
+
     }
 
 </script>

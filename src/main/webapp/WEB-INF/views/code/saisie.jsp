@@ -70,7 +70,7 @@
                             for (CategorieCompte categorie: t.getCategorieComptes()) {
                         %>
 
-                            <option value="<%=categorie.getId()%>"><%=categorie.getLibelle()%></option>
+                            <option value="<%=categorie.getId()%>" <%=code != null && code.getCategorieCompte() != null && Objects.equals(code.getCategorieCompte().getId(), categorie.getId()) ? "selected" : "" %>><%=categorie.getLibelle()%></option>
                         <%
                             }
                         %>

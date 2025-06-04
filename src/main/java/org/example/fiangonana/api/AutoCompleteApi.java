@@ -19,6 +19,9 @@ public class AutoCompleteApi {
 
     @GetMapping("/libelle/{key}")
     public List<String> autoCompleteLibelle(@PathVariable(name = "key", required = false, value = "") String motCle){
+        if("*".equals(motCle)){
+            motCle = "";
+        }
         return mvtCaisseService.getLibelles(motCle);
     }
 }

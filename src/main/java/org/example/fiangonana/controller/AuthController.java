@@ -3,6 +3,7 @@ package org.example.fiangonana.controller;
 import jakarta.servlet.http.HttpSession;
 import org.example.fiangonana.model.Utilisateur;
 import org.example.fiangonana.service.AuthService;
+import org.example.fiangonana.service.ConfigurationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +17,12 @@ public class AuthController {
 
     private final AuthService authService;
     private final HttpSession httpSession;
+    private final ConfigurationService configurationService;
 
-    public AuthController(AuthService authService, HttpSession httpSession) {
+    public AuthController(AuthService authService, HttpSession httpSession, ConfigurationService configurationService) {
         this.authService = authService;
         this.httpSession = httpSession;
+        this.configurationService = configurationService;
     }
 
     @GetMapping("/login")
@@ -35,6 +38,7 @@ public class AuthController {
         Utilisateur u = authService.authentifier(identifiant, motDePasse);
         if(u != null) {
             httpSession.setAttribute("u", u);
+            httpSession.setAttribute("conf", configurationService.getConfigutation());
             return "redirect:/";
         }
         return "redirect:/login?error=Identifiant ou mot de passe incorrect";

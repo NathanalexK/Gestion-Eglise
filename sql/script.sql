@@ -116,3 +116,43 @@ SELECT
 FROM rapport
 JOIN codes ON rapport.code = codes.code
 ;
+
+select
+    SUM(m.entree),
+    SUM(m.sortie),
+    SUM(m.entree - m.sortie)
+from mvt_caisse m
+;
+
+
+select
+    TO_CHAR(date_trunc('week', date), 'YYYY-IW'),
+    *
+from mvt_caisse;
+
+
+
+WITH solde_initial AS (
+    SELECT COALESCE(SUM(entree - sortie), 0) AS solde
+    FROM mvt_caisse
+    WHERE COALESCE('2025-04-01', date) > date
+),
+     transactions_filtrees AS (
+         SELECT
+--              m.id,
+             m.date,
+             sum(m.entree-m.sortie) as total
+--              m.entree,
+--              m.sortie
+         FROM mvt_caisse m
+                  LEFT JOIN budgets b ON m.id_budget = b.id
+         WHERE COALESCE('2025-04-01', date) <= date AND COALESCE('2025-04-30', date) >= date
+         GROUP BY m.date
+     )
+SELECT
+    TO_CHAR(date_trunc('week', date), 'DD/MM/YYYY') as libelle,
+--     t.entree,
+--     t.sortie,
+    solde_initial.solde + SUM(t.total) OVER (ORDER BY t.date) AS soldes
+FROM transactions_filtrees t, solde_initial
+;

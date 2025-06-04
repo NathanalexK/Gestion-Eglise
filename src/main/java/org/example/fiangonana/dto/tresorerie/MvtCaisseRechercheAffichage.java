@@ -2,7 +2,9 @@ package org.example.fiangonana.dto.tresorerie;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.fiangonana.model.CategorieCompte;
 import org.example.fiangonana.model.MvtCaisse;
+import org.example.fiangonana.model.TypeCompte;
 import org.example.fiangonana.util.PageNavigation;
 import org.hibernate.query.Page;
 
@@ -22,9 +24,13 @@ public class MvtCaisseRechercheAffichage {
     private Double sortieMin;
     private Double sortieMax;
     private String libelle;
+    private String ordreColonne;
+    private String ordre;
     private List<MvtCaisse> mvtCaisses = new ArrayList<>();
     private Double totalEntree;
     private Double totalSortie;
+    private List<CategorieCompte> categorieComptes;
+//    private List<TypeCompte> typeComptes = new ArrayList<>();
 
     private PageNavigation pageNavigation = new PageNavigation();
 

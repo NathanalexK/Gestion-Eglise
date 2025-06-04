@@ -5,10 +5,14 @@
 <%@ page import="org.example.fiangonana.util.NombreUtils" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="org.example.fiangonana.util.DateUtils" %>
+<%@ page import="org.example.fiangonana.util.MoisIntervalleDate" %>
+<%@ page import="java.util.List" %>
 <%
     MvtCaisseRecap affichage = ((MvtCaisseRecap) request.getAttribute("affichage"));
     LocalDate dmin = affichage.getDateDebut();
     LocalDate dmax = affichage.getDateFin();
+    List<MoisIntervalleDate> dates = DateUtils.get12DerniersMois(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+
     int num;
 %>
 
@@ -25,7 +29,7 @@
 
 <form>
     <div class="d-flex justify-content-center mb-5">
-        <div class="card w-90">
+        <div class="card w-90 card-style-1">
             <div class="card-header">
                 <h5>Filtre Recherche</h5>
             </div>
@@ -46,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="card-footer p-3">
+            <div class="card-footer">
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-warning">Filtrer</button>
                 </div>
@@ -58,10 +62,38 @@
     </div>
 </form>
 
+<div class="d-flex justify-content-center mt-5 mb-5">
+    <div class="card w-90">
+        <div class="card-header">
+            Raccourcis
+        </div>
+
+        <div class="card-body">
+            <ul class="d-flex gap-4" style="list-style: none">
+                <%
+                    for (MoisIntervalleDate moisIntervalleDate : dates) {
+                %>
+                <li>
+                    <a href="/tresorerie/recap?dmin=<%=moisIntervalleDate.getDebutMois()%>&dmax=<%=moisIntervalleDate.getFinMois()%>"><%=moisIntervalleDate.getNom()%> <%=moisIntervalleDate.getAnnee()%>
+                    </a>
+                </li>
+
+                <%
+                    }
+                %>
+
+
+            </ul>
+
+
+        </div>
+    </div>
+</div>
+
 <div class="d-flex justify-content-center mb-5">
     <div class="card w-90">
         <div class="card-header green-gradient">
-            <h5>Tableau Recapitulatif</h5>
+            <h5>Tableau Recapitulatif:  <%=DateUtils.affichageIntervalleDateFrancais(dmin, dmax)%></h5>
         </div>
 
         <div class="card-body">

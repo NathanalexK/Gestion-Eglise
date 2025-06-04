@@ -9,7 +9,7 @@
 <%@ page import="org.example.fiangonana.util.NombreUtils" %>
 <%@ page import="java.util.Objects" %>
 <%
-//    List<Code> codesEntree = ((List<Code>) request.getAttribute("codesEntree"));
+    //    List<Code> codesEntree = ((List<Code>) request.getAttribute("codesEntree"));
 //    List<Code> codesSortie = ((List<Code>) request.getAttribute("codesSortie"));
     List<CategorieCompte> categories = ((List<CategorieCompte>) request.getAttribute("categories"));
     List<VBudgetCpl> budgets = ((List<VBudgetCpl>) request.getAttribute("budget[]"));
@@ -30,7 +30,7 @@
 
 <div class="d-flex justify-content-center">
 
-    <div class="card w-50">
+    <div class="card w-50 card-style-1">
         <form action="${pageContext.request.contextPath}/tresorerie/saisie-ligne/confirmer" method="post">
 
             <div class="card-header">
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="mb-2">
-                        <label for="categorie-input">Categorie: </label>
+                        <label for="categorie-input">Compte: </label>
                         <select
                                 id="categorie-input"
                                 class="form-select"
@@ -71,7 +71,7 @@
                                 %>
                                 <option value="<%=code.getId()%>"
                                         data-libelle="<%=code.getLibelle()%>"
-                                        <%=mvtCaisse != null &&  mvtCaisse.getCompte() != null && Objects.equals( mvtCaisse.getCompte().getId(), code.getId()) ? "selected": "" %>
+                                        <%=mvtCaisse != null && mvtCaisse.getCompte() != null && Objects.equals(mvtCaisse.getCompte().getId(), code.getId()) ? "selected" : "" %>
                                 >
                                     <%=code.getCode()%> - <%=code.getLibelle()%>
                                 </option>
@@ -117,19 +117,19 @@
 
                 </div>
 
-<%--                <div class="mb-2">--%>
-<%--                    <label>Numero Compte:</label>--%>
+                <%--                <div class="mb-2">--%>
+                <%--                    <label>Numero Compte:</label>--%>
 
-<%--                    <input--%>
-<%--                            type="text"--%>
-<%--                            class="form-control"--%>
-<%--                            name="code"--%>
-<%--                            id="numero-input"--%>
-<%--                            maxlength="10"--%>
-<%--                            value="<%=mvtCaisse != null ? mvtCaisse.getCode() : ""%>"--%>
-<%--                    >--%>
+                <%--                    <input--%>
+                <%--                            type="text"--%>
+                <%--                            class="form-control"--%>
+                <%--                            name="code"--%>
+                <%--                            id="numero-input"--%>
+                <%--                            maxlength="10"--%>
+                <%--                            value="<%=mvtCaisse != null ? mvtCaisse.getCode() : ""%>"--%>
+                <%--                    >--%>
 
-<%--                </div>--%>
+                <%--                </div>--%>
 
                 <div class="mb-2">
                     <label>Libelle</label>
@@ -173,12 +173,12 @@
                 </div>
 
                 <div class="mb-2">
-                   <label>Budget</label>
+                    <label>Budget</label>
                     <select name="budget" class="form-select" id="">
                         <option value="">Ne pas utiliser de budget</option>
 
                         <%
-                            for(VBudgetCpl b: budgets) {
+                            for (VBudgetCpl b : budgets) {
                         %>
                         <option value="<%=b.getId()%>" <%=mvtCaisse != null && mvtCaisse.getBudget() != null && Objects.equals(mvtCaisse.getBudget().getId(), b.getId()) ? "selected" : ""%>>
                             <%=b.getLibelle()%> | reste: <%=NombreUtils.affichageMonetaire(b.getReste())%> Ar
@@ -225,43 +225,62 @@
         const categorieInput = $('#categorie-input');
         const libelleInput = $('#libelle-input');
         const codeInput = $('#numero-input');
+        fetchLibelleSuggestions();
 
         const selected = categorieInput.find(':selected');
         codeInput.val(selected.val());
-        libelleInput.val(selected.data('libelle'));
+        <%
+            if(mvtCaisse == null) {
+        %>
+             libelleInput.val(selected.data('libelle'));
+        <%
+            }
+        %>
 
         categorieInput.on('change', function () {
             const selected = categorieInput.find(':selected');
             codeInput.val(selected.val());
             libelleInput.val(selected.data('libelle'));
-        })
+        });
+
+
+        let libelleSuggestions = []
+        function fetchLibelleSuggestions() {
+            $.getJSON(environment.apiUrl + '/api/autocomplete/libelle/*', function (data) {
+                libelleSuggestions = data;
+                console.table(data)
+                    // $('.autocomplete').remove();
+                    //
+                    // libelleInput.after(creerSuggestionAutocomplete(data, libelleInput));
+            });
+        }
 
         // console.log("Hello World");
         // $(document).find('#numero-input').val($(document).find('#categorie-input').find(':selected').val())
         //
         //
-        // const form = $('form');
+        const form = $('form');
         // form.on('change', '#categorie-input', () => {
         //     $(document).find('#numero-input').val($(document).find('#categorie-input').find(':selected').val())
         //     $('#libelle-input').val($('#categorie-input').data("libelle"))
         // });
         //
         //
-        // form.on('keyup', '#libelle-input', function () {
-        //     const libelleInput = $(this);
-        //     $.getJSON(environment.apiUrl + '/api/autocomplete/libelle/' + $(this).val(), function (data) {
-        //         $('.autocomplete').remove();
+        form.on('keyup', '#libelle-input', function () {
+            const libelleInput = $(this);
+            // $.getJSON(environment.apiUrl + '/api/autocomplete/libelle/' + $(this).val(), function (data) {
+                $('.autocomplete').remove();
+                const suggestions = libelleSuggestions.filter(lib => lib.toLowerCase().includes($(this).val())).slice(0, 5)
+                libelleInput.after(creerSuggestionAutocomplete(suggestions, libelleInput));
+            // });
+        });
         //
-        //         libelleInput.after(creerSuggestionAutocomplete(data, libelleInput));
-        //     });
-        // });
-        //
-        // form.on('blur', '#libelle-input', function () {
-        //     setTimeout(() => {
-        //         $('.autocomplete').remove();
-        //     }, 1000);
-        //
-        // });
+        form.on('blur', '#libelle-input', function () {
+            setTimeout(() => {
+                $('.autocomplete').remove();
+            }, 500);
+
+        });
 
         $('#categorie-input').select2({
 

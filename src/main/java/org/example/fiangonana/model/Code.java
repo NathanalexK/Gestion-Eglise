@@ -62,4 +62,8 @@ public class Code {
     public String  getTypeCompteLibelle() {
         return this.getCategorieCompte() != null && this.getCategorieCompte().getTypeCompte() != null ? this.getCategorieCompte().getTypeCompteLibelle() : "";
     }
+
+    public String getGroupeCompteLibelle() {
+        return this.getGroupeCompteRecap() != null ? this.getGroupeCompteRecap().getLibelle() : "-";
+    }
 }

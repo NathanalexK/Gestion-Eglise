@@ -62,6 +62,8 @@ public class MvtCaisse {
         return this.getLibelle();
     }
 
+
+
     public void controller() throws Exception {
         if(this.getEntree() < 0 || this.getSortie() < 0) {
             throw new Exception("Le montant ne doit pas être négatif");
@@ -84,6 +86,13 @@ public class MvtCaisse {
 //        if(this.getLibelle().length() < 4) {
 //            throw new Exception("Libellé doit contenir au moins 4 caractères");
 //        }
+    }
+
+    public String getClasseCouleur() {
+        if(this.getBudget() != null) {
+            return "operation-budget";
+        }
+        return "";
     }
 
 //    public void checkDate() {
